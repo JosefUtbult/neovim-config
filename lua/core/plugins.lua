@@ -1,51 +1,48 @@
--- Check if packer is installed. Install it otherwise
-local ensure_packer = function()
-	local fn = vim.fn
-	local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-		vim.cmd [[packadd packer.nvim]]
-		return true
-	end
-	return false
+-- Initialize Lazy
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
-
-return require('packer').startup(function(use)
-	-- Plugins
-	use 'wbthomason/packer.nvim'
+local plugins = {
 	-- Theme
-	use 'ellisonleao/gruvbox.nvim'
+	{ "ellisonleao/gruvbox.nvim", priority = 1000 , config = true},
 	-- File browser
-	use 'nvim-tree/nvim-tree.lua'
+	{ 'nvim-tree/nvim-tree.lua' },
 	-- Icons pack for the file browser
-	use 'nvim-tree/nvim-web-devicons'
+	{ 'nvim-tree/nvim-web-devicons' },
 	-- Status line
-	use 'nvim-lualine/lualine.nvim'
+	{ 'nvim-lualine/lualine.nvim' },
 	-- Syntax highlighting
-	use 'nvim-treesitter/nvim-treesitter'
+	{ 'nvim-treesitter/nvim-treesitter' },
 	-- Fuzzy finder over lists
-	use {
+	{
 		'nvim-telescope/telescope.nvim',
 		tag = '0.1.5',
 		requires = {{'nvim-lua/plenary.nvim'}}
-	}
+	},
 	-- Auto apply hard or soft wrapping
-	use {
+	{
 		"andrewferrier/wrapping.nvim",
 		config = function()
 			require("wrapping").setup()
 		end,
-	}
+	},
 	-- Adds indentation lines
-	use 'lukas-reineke/indent-blankline.nvim'
+	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 	-- Enables spelling rotation
-	use 'tweekmonster/spellrotate.vim'
+	{ 'tweekmonster/spellrotate.vim' },
 	-- Comment toggling
-	use 'tpope/vim-commentary'
+	{ 'tpope/vim-commentary' }
+}
+local opts = {}
 
-	if packer_bootstrap then
-		require('packer').sync()
-	end
-end)
+require("lazy").setup(plugins, opts)
