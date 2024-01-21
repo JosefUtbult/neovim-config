@@ -3,8 +3,7 @@ require('lualine').setup {
 	options = {
 		-- Use icons
 		icons_enabled = true,
-		-- Use the gruvbox theme
-		theme = 'gruvbox',
+		theme = 'dracula',
 	},
 	sections = {
 		lualine_a = {

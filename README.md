@@ -1,5 +1,12 @@
 ## Setup
 
+Install dependencies
+
+Rigrep for grep finding in telescope
+```bash
+sudo apt install ripgrep
+```
+
 Install the unstable version of NeoVim
 
 ```bash

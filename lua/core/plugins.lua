@@ -1,33 +1,38 @@
--- Initialize Lazy
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable", -- latest stable release
-		lazypath,
-	})
-end
-vim.opt.rtp:prepend(lazypath)
-
-local plugins = {
-	-- Theme
-	{ "ellisonleao/gruvbox.nvim", priority = 1000 , config = true},
+return {
+	-- Themes
+	{
+		'ellisonleao/gruvbox.nvim',
+		priority = 1000 ,
+		config = true
+	},
+	{
+		'catppuccin/nvim',
+		name = "catppuccin",
+		priority = 1000
+	},
 	-- File browser
-	{ 'nvim-tree/nvim-tree.lua' },
-	-- Icons pack for the file browser
-	{ 'nvim-tree/nvim-web-devicons' },
+	{
+		'nvim-tree/nvim-tree.lua',
+		-- Icons pack for the file browser
+		dependencies = { 'nvim-tree/nvim-web-devicons' }
+	},
 	-- Status line
-	{ 'nvim-lualine/lualine.nvim' },
+	{
+		'nvim-lualine/lualine.nvim'
+	},
 	-- Syntax highlighting
-	{ 'nvim-treesitter/nvim-treesitter' },
+	{
+		'nvim-treesitter/nvim-treesitter',
+	},
 	-- Fuzzy finder over lists
 	{
 		'nvim-telescope/telescope.nvim',
 		tag = '0.1.5',
-		requires = {{'nvim-lua/plenary.nvim'}}
+		dependencies = { 'nvim-lua/plenary.nvim' }
+	},
+	-- Integrate Telescope with LSP
+	{
+		'nvim-telescope/telescope-ui-select.nvim'
 	},
 	-- Auto apply hard or soft wrapping
 	{
@@ -37,12 +42,43 @@ local plugins = {
 		end,
 	},
 	-- Adds indentation lines
-	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+	{
+		'lukas-reineke/indent-blankline.nvim',
+		main = 'ibl',
+		opts = {}
+	},
 	-- Enables spelling rotation
-	{ 'tweekmonster/spellrotate.vim' },
+	{
+		'tweekmonster/spellrotate.vim'
+	},
 	-- Comment toggling
-	{ 'tpope/vim-commentary' }
+	{
+		'tpope/vim-commentary'
+	},
+	-- Auto pair brackets
+	{
+		'JosefUtbult/auto-pairs'
+	},
+	-- Auto surround highlighted text with quotes and brackets
+	-- Usage: cs
+	{
+		'tpope/vim-surround'
+	},
+	-- Markdown previewer
+	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = function() vim.fn["mkdp#util#install"]() end,
+	},
+	-- LSP server handler
+	{
+		"williamboman/mason.nvim"
+	},
+	{
+		"williamboman/mason-lspconfig.nvim"
+	},
+	{
+		"neovim/nvim-lspconfig"
+	}
 }
-local opts = {}
-
-require("lazy").setup(plugins, opts)
