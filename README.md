@@ -7,6 +7,11 @@ Rigrep for grep finding in telescope
 sudo apt install ripgrep
 ```
 
+Unzip for Mason to install LSPs
+```bash
+sudo apt install unzip
+```
+
 Install the unstable version of NeoVim
 
 ```bash
