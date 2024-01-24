@@ -7,3 +7,6 @@ vim.keymap.set('i', 'jj', '<Esc>')
 vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>')
 -- Go to the end of the line with ee
 vim.keymap.set('i', 'ee', '<C-O><End>')
+
+-- Set the timeout length between chained key presses
+vim.o.timeoutlen = 200
