@@ -15,11 +15,11 @@ vim.wo.number = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+-- Use smart indentation
+vim.opt.smartindent = true
+
 -- Set tab behaviour
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
-
--- Use smart indentation
-vim.opt.smartindent = true
 
