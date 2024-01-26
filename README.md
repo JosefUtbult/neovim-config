@@ -2,14 +2,15 @@
 
 Install dependencies
 
-Rigrep for grep finding in telescope
-```bash
-sudo apt install ripgrep
-```
+- Rigrep for grep finding in telescope
+- Unzip for Mason to install LSPs
+- GCC for LSP
+- NPM For a bunch of LSPs
+- Venv for Jedi LSP
 
-Unzip for Mason to install LSPs
+
 ```bash
-sudo apt install unzip
+sudo apt install -y ripgrep unzip gcc npm python3-venv
 ```
 
 Install the unstable version of NeoVim
@@ -17,7 +18,7 @@ Install the unstable version of NeoVim
 ```bash
 sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt-get update
-sudo apt-get install neovim
+sudo apt-get install -y neovim
 ```
 
 Add the repository to your config folder
