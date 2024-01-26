@@ -80,5 +80,18 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig"
+	},
+	{
+		"nvimtools/none-ls.nvim"
+	},
+	-- Allow NeoVim to act as a language server to connect to
+	-- command line tools such as linters and formatters
+	{
+		"nvimtools/none-ls.nvim",
+		dependencies = { 'nvim-lua/plenary.nvim' }
+	},
+	-- Combine Vim and Tmux when navigating
+	{
+		"christoomey/vim-tmux-navigator"
 	}
 }

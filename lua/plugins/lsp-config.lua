@@ -34,8 +34,8 @@ require("mason-lspconfig").setup({
 		-- XML
 		"lemminx",
 		-- Arduino
-		"arduino_language_server"
-	}
+		"arduino_language_server",
+	},
 })
 
 local lspconfig = require("lspconfig")
@@ -58,13 +58,27 @@ lspconfig.yamlls.setup({})
 lspconfig.lemminx.setup({})
 lspconfig.arduino_language_server.setup({})
 
--- Activate hover
-vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
--- Go to definition
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
--- Go to implementation
-vim.keymap.set('n', 'gf', vim.lsp.buf.implementation, {})
--- Open code actions
-vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	callback = function(ev)
+		-- Enable completion triggered by <c-x><c-o>
+		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
--- <C-x><C-o>: Code compleation
+		-- Buffer local mappings.
+		-- See `:help vim.lsp.*` for documentation on any of the below functions
+		local opts = { buffer = ev.buf }
+
+		-- Activate hover
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+		-- Go to definition
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		-- Go to implementation
+		vim.keymap.set("n", "gf", vim.lsp.buf.implementation, opts)
+		-- Open code actions
+		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+
+		-- <C-x><C-o>: Code compleation
+	end,
+})
