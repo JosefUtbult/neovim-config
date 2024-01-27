@@ -26,3 +26,12 @@ Add the repository to your config folder
 ```bash
 git clone git@github.com:JosefUtbult/neovim-config.git ~/.config/nvim
 ```
+
+Now, add an alias in your `.zshrc` config at the bottom
+
+```bash
+# Alias Vim to NeoVim
+alias vim=nvim
+alias vi=nvim
+alias v=nvim
+```
