@@ -93,5 +93,9 @@ return {
 	-- Combine Vim and Tmux when navigating
 	{
 		"christoomey/vim-tmux-navigator"
+	},
+	-- Markdown folding
+	{
+		"masukomi/vim-markdown-folding"
 	}
 }
