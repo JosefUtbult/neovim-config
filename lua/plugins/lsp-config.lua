@@ -22,7 +22,7 @@ require("mason-lspconfig").setup({
 		-- JSON
 		"jsonls",
 		-- LaTex
-		"ltex",
+		--"ltex",
 		-- Make
 		"autotools_ls",
 		-- Markdown
@@ -50,7 +50,7 @@ lspconfig.html.setup({})
 lspconfig.dockerls.setup({})
 lspconfig.docker_compose_language_service.setup({})
 lspconfig.jsonls.setup({})
-lspconfig.ltex.setup({})
+-- lspconfig.ltex.setup({})
 lspconfig.autotools_ls.setup({})
 lspconfig.marksman.setup({})
 lspconfig.jedi_language_server.setup({})

@@ -9,4 +9,4 @@ vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>')
 vim.keymap.set('i', 'qq', '<C-O><End>')
 
 -- Set the timeout length between chained key presses
-vim.o.timeoutlen = 400
+vim.o.timeoutlen = 600

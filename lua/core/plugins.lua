@@ -57,7 +57,7 @@ return {
 	},
 	-- Auto pair brackets
 	{
-		'JosefUtbult/auto-pairs'
+		'LunarWatcher/auto-pairs'
 	},
 	-- Auto surround highlighted text with quotes and brackets
 	-- Usage: cs
@@ -99,3 +99,4 @@ return {
 		"masukomi/vim-markdown-folding"
 	}
 }
+
