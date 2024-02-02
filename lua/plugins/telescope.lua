@@ -6,3 +6,6 @@ vim.keymap.set('n', '<c-p>', builtin.find_files, {})
 vim.keymap.set('n', '<leader><leader>', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
+-- Toggle keymap search
+vim.keymap.set('n', '<leader>?', ':Telescope keymaps<CR>')
