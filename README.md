@@ -10,13 +10,16 @@ Install dependencies
 
 
 ```bash
-sudo apt install -y ripgrep unzip gcc npm python3-venv
+sudo apt install -y git ripgrep unzip gcc npm python3-venv
 ```
 
 Install the unstable version of NeoVim
 
 ```bash
 sudo add-apt-repository ppa:neovim-ppa/unstable
+```
+
+```bash
 sudo apt-get update
 sudo apt-get install -y neovim
 ```
