@@ -13,7 +13,7 @@ null_ls.setup({
 		null_ls.builtins.diagnostics.chktex,
 		-- C++ diagnostics
 		null_ls.builtins.diagnostics.cppcheck,
-		null_ls.builtins.diagnostics.cpplint,
+		--null_ls.builtins.diagnostics.cpplint,
 		-- Docker files
 		null_ls.builtins.diagnostics.hadolint,
 		-- Python
