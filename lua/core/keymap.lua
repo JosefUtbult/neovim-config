@@ -13,6 +13,3 @@ vim.keymap.set('v', 't', ':!tac<CR>')
 
 -- Set the timeout length between chained key presses
 vim.o.timeoutlen = 600
-
--- Disable the mouse
-vim.opt.mouse = ""
