@@ -5,12 +5,13 @@ Install dependencies
 - Rigrep for grep finding in telescope
 - Unzip for Mason to install LSPs
 - GCC for LSP
+- cpplint and cppcheck for clangd
 - NPM For a bunch of LSPs
 - Venv for Jedi LSP
 
 
 ```bash
-sudo apt install -y git ripgrep unzip gcc npm python3-venv
+sudo apt install -y git ripgrep unzip gcc npm python3-venv cppcheck cpplint
 ```
 
 Install the unstable version of NeoVim
