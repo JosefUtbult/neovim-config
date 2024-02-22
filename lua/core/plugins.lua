@@ -47,6 +47,11 @@ return {
 		main = 'ibl',
 		opts = {}
 	},
+	-- Sets file indentation based on the actual file
+	-- by making a dumb check for indentation styles
+	{
+		'Darazaki/indent-o-matic'
+	},
 	-- Enables spelling rotation
 	{
 		'tweekmonster/spellrotate.vim'
