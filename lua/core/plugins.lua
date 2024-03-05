@@ -34,13 +34,6 @@ return {
 	{
 		'nvim-telescope/telescope-ui-select.nvim'
 	},
-	-- Auto apply hard or soft wrapping
-	{
-		"andrewferrier/wrapping.nvim",
-		config = function()
-			require("wrapping").setup()
-		end,
-	},
 	-- Adds indentation lines
 	{
 		'lukas-reineke/indent-blankline.nvim',
@@ -102,6 +95,13 @@ return {
 	-- Markdown folding
 	{
 		"masukomi/vim-markdown-folding"
+	},
+	-- Wrapping modes:
+	--	[ow - soft wrap mode
+	--	]ow - hard wrap mode
+	--	yow - toggle wrap mode
+	{
+		"andrewferrier/wrapping.nvim"
 	}
 }
 

@@ -8,10 +8,11 @@ Install dependencies
 - cpplint and cppcheck for clangd
 - NPM For a bunch of LSPs
 - Venv for Jedi LSP
+- Markdown for Markdown preview
 
 
-```bash
-sudo apt install -y git ripgrep unzip gcc npm python3-venv cppcheck cpplint
+```bas
+sudo apt install -y git ripgrep unzip gcc npm python3-venv cppcheck cpplint markdown
 ```
 
 Install the unstable version of NeoVim
