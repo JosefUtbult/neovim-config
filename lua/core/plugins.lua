@@ -79,9 +79,6 @@ return {
 	{
 		"neovim/nvim-lspconfig"
 	},
-	{
-		"nvimtools/none-ls.nvim"
-	},
 	-- Allow NeoVim to act as a language server to connect to
 	-- command line tools such as linters and formatters
 	{
@@ -102,6 +99,15 @@ return {
 	--	yow - toggle wrap mode
 	{
 		"andrewferrier/wrapping.nvim"
+	},
+	-- Debugging
+	-- Debug Adapter Protocol client implementation
+	{
+		"mfussenegger/nvim-dap"
+	},
+	-- Task runner and job management plugin
+	{
+		"stevearc/overseer.nvim"
 	}
 }
 

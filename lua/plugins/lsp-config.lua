@@ -9,6 +9,7 @@ require("mason-lspconfig").setup({
 		"bashls",
 		-- C/C++
 		"clangd",
+		"cmake",
 		-- Rust
 		"rust_analyzer",
 		-- CSS
@@ -44,6 +45,7 @@ lspconfig.lua_ls.setup({})
 lspconfig.tsserver.setup({})
 lspconfig.bashls.setup({})
 lspconfig.clangd.setup({})
+lspconfig.cmake.setup({})
 lspconfig.rust_analyzer.setup({})
 lspconfig.cssls.setup({})
 lspconfig.html.setup({})
@@ -72,12 +74,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Activate hover
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-		-- Go to definition
+		-- Go to definition and declaration
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
 		-- Go to implementation
-		vim.keymap.set("n", "gf", vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+		-- Go to references
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
 		-- Open code actions
 		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+		-- Rename
+    vim.keymap.set('n', 'grn', vim.lsp.buf.rename, opts)
 
 		-- <C-x><C-o>: Code compleation
 	end,
