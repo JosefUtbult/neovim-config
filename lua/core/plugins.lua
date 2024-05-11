@@ -62,13 +62,6 @@ return {
 	{
 		'tpope/vim-surround'
 	},
-	-- Markdown previewer
-	{
-		"iamcco/markdown-preview.nvim",
-		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		ft = { "markdown" },
-		build = function() vim.fn["mkdp#util#install"]() end,
-	},
 	-- LSP server handler
 	{
 		"williamboman/mason.nvim"
@@ -89,9 +82,17 @@ return {
 	{
 		"christoomey/vim-tmux-navigator"
 	},
-	-- Markdown folding
+	-- Markdown previewer
 	{
-		"masukomi/vim-markdown-folding"
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = function() vim.fn["mkdp#util#install"]() end,
+	},
+	-- Markdown navigation and notebook tools
+	{
+		"jakewvincent/mkdnflow.nvim",
+		dependencies = { 'nvim-lua/plenary.nvim' }
 	},
 	-- Wrapping modes:
 	--	[ow - soft wrap mode
