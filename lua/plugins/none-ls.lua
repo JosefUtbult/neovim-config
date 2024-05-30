@@ -5,12 +5,9 @@ null_ls.setup({
 		-- Builtin formatters
 		null_ls.builtins.formatting.stylua,
 		-- Javascript linter
-		null_ls.builtins.diagnostics.eslint,
 		null_ls.builtins.completion.spell,
 		-- Makefile diagnostics
 		null_ls.builtins.diagnostics.checkmake,
-		-- Latex diagnostics
-		null_ls.builtins.diagnostics.chktex,
 		-- C++ diagnostics
 		null_ls.builtins.diagnostics.cppcheck,
 		--null_ls.builtins.diagnostics.cpplint,

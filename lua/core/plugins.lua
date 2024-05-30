@@ -72,6 +72,12 @@ return {
 	{
 		"neovim/nvim-lspconfig"
 	},
+	-- A pretty list for showing diagnostics, references, telescope results, quickfix and location lists to help you solve all the trouble your code is causing.
+	{
+		"folke/trouble.nvim",
+		branch = "dev",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
 	-- Allow NeoVim to act as a language server to connect to
 	-- command line tools such as linters and formatters
 	{

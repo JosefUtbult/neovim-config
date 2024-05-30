@@ -90,3 +90,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- <C-x><C-o>: Code compleation
 	end,
 })
+
+-- vim.diagnostic.open_float()

@@ -2,7 +2,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set the timeout length between chained key presses
-vim.o.timeoutlen = 600
+vim.o.timeoutlen = 800
 
 -- Map jj to escape
 vim.keymap.set('i', 'jj', '<Esc>')

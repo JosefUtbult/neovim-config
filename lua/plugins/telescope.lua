@@ -1,5 +1,21 @@
 -- Telescope fuzzy finder
-require('telescope').setup({ file_ignore_patterns = { "node%_modules/.*" } })
+
+local actions = require("telescope.actions")
+local open_with_trouble = require("trouble.sources.telescope").open
+local add_to_trouble = require("trouble.sources.telescope").add
+
+local telescope = require("telescope")
+
+require('telescope').setup({
+	file_ignore_patterns = { "node%_modules/.*" },
+	defaults = {
+    mappings = {
+      i = { ["<c-t>"] = open_with_trouble },
+      n = { ["<c-t>"] = open_with_trouble },
+    },
+  },
+})
+
 local builtin = require('telescope.builtin')
 
 local opts = { noremap = true, silent = true }
