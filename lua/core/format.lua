@@ -25,3 +25,7 @@ vim.opt.shiftwidth = 2
 
 -- Enable wrapping by default
 vim.opt.wrap = true
+
+-- Enable squiggly underlines
+vim.diagnostic.config({ virtual_text = true })
+vim.cmd.highlight('highlight-name gui=undercurl')

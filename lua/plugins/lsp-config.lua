@@ -36,7 +36,7 @@ require("mason-lspconfig").setup({
 		"lemminx",
 		-- Arduino
 		"arduino_language_server",
-	},
+	}
 })
 
 local lspconfig = require("lspconfig")

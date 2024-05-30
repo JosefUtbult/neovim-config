@@ -23,6 +23,7 @@ return {
 	-- Syntax highlighting
 	{
 		'nvim-treesitter/nvim-treesitter',
+		tag = 'v0.9.2',
 	},
 	-- Fuzzy finder over lists
 	{
@@ -115,6 +116,6 @@ return {
 	-- Task runner and job management plugin
 	{
 		"stevearc/overseer.nvim"
-	}
+	},
 }
 
