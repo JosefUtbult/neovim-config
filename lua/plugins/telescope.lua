@@ -1,67 +1,79 @@
 -- Telescope fuzzy finder
+return {
+	{
+		'nvim-telescope/telescope.nvim',
+		tag = '0.1.5',
+		dependencies = {
+			'nvim-lua/plenary.nvim',
+			'folke/trouble.nvim',
+			'nvim-tree/nvim-web-devicons'
+		},
+		opts = {
+			file_ignore_patterns = { "node%_modules/.*" },
+			defaults = {
+				mappings = {
+					i = { ["<c-t>"] = open_with_trouble },
+					n = { ["<c-t>"] = open_with_trouble },
+				},
+			},
+		},
+		config = function()
+			local actions = require("telescope.actions")
+			local open_with_trouble = require("trouble.sources.telescope").open
+			local add_to_trouble = require("trouble.sources.telescope").add
 
-local actions = require("telescope.actions")
-local open_with_trouble = require("trouble.sources.telescope").open
-local add_to_trouble = require("trouble.sources.telescope").add
+			local telescope = require("telescope")
+			local builtin = require('telescope.builtin')
 
-local telescope = require("telescope")
+			local opts = { noremap = true, silent = true }
 
-require('telescope').setup({
-	file_ignore_patterns = { "node%_modules/.*" },
-	defaults = {
-    mappings = {
-      i = { ["<c-t>"] = open_with_trouble },
-      n = { ["<c-t>"] = open_with_trouble },
-    },
-  },
-})
+			function vim.getVisualSelection()
+				vim.cmd('noau normal! "vy"')
+				local text = vim.fn.getreg('v')
+				vim.fn.setreg('v', {})
 
-local builtin = require('telescope.builtin')
+				text = string.gsub(text, "\n", "")
+				if #text > 0 then
+					return text
+				else
+					return ''
+				end
+			end
 
-local opts = { noremap = true, silent = true }
+			-- Toggle keymap search
+			vim.keymap.set('n', '<leader>?', ':Telescope keymaps<CR>')
 
-function vim.getVisualSelection()
-	vim.cmd('noau normal! "vy"')
-	local text = vim.fn.getreg('v')
-	vim.fn.setreg('v', {})
+			-- Search previously open files
+			vim.keymap.set('n', '<leader>fd', builtin.oldfiles, opts)
 
-	text = string.gsub(text, "\n", "")
-	if #text > 0 then
-		return text
-	else
-		return ''
-	end
-end
+			-- Search files in workspace
+			vim.keymap.set('n', '<leader>ff', builtin.find_files, opts)
 
--- Toggle keymap search
-vim.keymap.set('n', '<leader>?', ':Telescope keymaps<CR>')
+			-- Search in help tags
+			vim.keymap.set('n', '<leader>fh', builtin.help_tags, opts)
 
--- Search previously open files
-vim.keymap.set('n', '<leader>fd', builtin.oldfiles, opts)
+			-- Search in open buffers
+			vim.keymap.set('n', '<leader>fb', builtin.buffers, opts)
+			vim.keymap.set('v', '<leader>fb', function()
+				local text = vim.getVisualSelection()
+				builtin.buffers({ default_text = text })
+			end, opts)
 
--- Search files in workspace
-vim.keymap.set('n', '<leader>ff', builtin.find_files, opts)
+			-- Search in current buffer
+			vim.keymap.set('n', '<leader>gg', builtin.current_buffer_fuzzy_find, opts)
+			vim.keymap.set('v', '<leader>gg', function()
+				local text = vim.getVisualSelection()
+				builtin.current_buffer_fuzzy_find({ default_text = text })
+			end, opts)
 
--- Search in help tags
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, opts)
+			-- Live grep
+			vim.keymap.set('n', '<leader>fg', builtin.live_grep, opts)
+			vim.keymap.set('v', '<leader>fg', function()
+				local text = vim.getVisualSelection()
+				builtin.live_grep({ default_text = text })
+			end, opts)
+		end,
+	},
+}
 
--- Search in open buffers
-vim.keymap.set('n', '<leader>fb', builtin.buffers, opts)
-vim.keymap.set('v', '<leader>fb', function()
-	local text = vim.getVisualSelection()
-	builtin.buffers({ default_text = text })
-end, opts)
 
--- Search in current buffer
-vim.keymap.set('n', '<leader>gg', builtin.current_buffer_fuzzy_find, opts)
-vim.keymap.set('v', '<leader>gg', function()
-	local text = vim.getVisualSelection()
-	builtin.current_buffer_fuzzy_find({ default_text = text })
-end, opts)
-
--- Live grep
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, opts)
-vim.keymap.set('v', '<leader>fg', function()
-	local text = vim.getVisualSelection()
-	builtin.live_grep({ default_text = text })
-end, opts)
