@@ -77,18 +77,28 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Go to definition and declaration
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
+		vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
 		-- Go to implementation
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
 		-- Go to references
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+		vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
 		-- Open code actions
 		vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
 		-- Rename
-    vim.keymap.set('n', 'grn', vim.lsp.buf.rename, opts)
+		vim.keymap.set('n', 'grn', vim.lsp.buf.rename, opts)
+
+		-- Close reference window when reference is selected
+		vim.api.nvim_create_autocmd("FileType", {
+			callback = function()
+					local bufnr = vim.fn.bufnr('%')
+					vim.keymap.set("n", "<enter>", function()
+							vim.api.nvim_command([[execute "normal! \<cr>"]])
+							vim.api.nvim_command(bufnr .. 'bd')
+					end, { buffer = bufnr })
+			end,
+			pattern = "qf",
+		})
 
 		-- <C-x><C-o>: Code compleation
 	end,
 })
-
--- vim.diagnostic.open_float()
