@@ -15,8 +15,8 @@ vim.keymap.set('i', 'qq', '<C-O><End>')
 vim.keymap.set('v', 't', ':!tac<CR>')
 
 -- Tab behaviour
+vim.keymap.set('n', '<leader><leader>', ':tabnext<CR>')
 vim.keymap.set('n', 'tn',        ':tabnew<CR>')
-vim.keymap.set('n', '<leader>t', ':tabnext<CR>')
 vim.keymap.set('n', 'tm',				 ':tabmove<CR>')
 vim.keymap.set('n', 'tc', 			 ':tabclose<CR>')
 vim.keymap.set('n', 'to', 			 ':tabonly<CR>')

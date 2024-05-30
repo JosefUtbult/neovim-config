@@ -37,7 +37,7 @@ end
 vim.keymap.set('n', '<leader>?', ':Telescope keymaps<CR>')
 
 -- Search previously open files
-vim.keymap.set('n', '<leader><leader>', builtin.oldfiles, opts)
+vim.keymap.set('n', '<leader>fd', builtin.oldfiles, opts)
 
 -- Search files in workspace
 vim.keymap.set('n', '<leader>ff', builtin.find_files, opts)
