@@ -9,10 +9,10 @@ Install dependencies
 - NPM For a bunch of LSPs
 - Venv for Jedi LSP
 - Markdown for Markdown preview
-
+- Codespell for spelling code using Null-ls
 
 ```bas
-sudo apt install -y git ripgrep unzip gcc npm python3-venv cppcheck cpplint markdown
+sudo apt install -y git ripgrep unzip gcc npm python3-venv cppcheck cpplint markdown codespell
 ```
 
 Install the unstable version of NeoVim
