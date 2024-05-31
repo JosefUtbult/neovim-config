@@ -6,26 +6,32 @@ return {
 		dependencies = {
 			'nvim-lua/plenary.nvim',
 			'folke/trouble.nvim',
-			'nvim-tree/nvim-web-devicons'
-		},
-		opts = {
-			file_ignore_patterns = { "node%_modules/.*" },
-			defaults = {
-				mappings = {
-					i = { ["<c-t>"] = open_with_trouble },
-					n = { ["<c-t>"] = open_with_trouble },
-				},
-			},
+			'nvim-tree/nvim-web-devicons',
+			'nvim-telescope/telescope-ui-select.nvim',
 		},
 		config = function()
-			local actions = require("telescope.actions")
-			local open_with_trouble = require("trouble.sources.telescope").open
-			local add_to_trouble = require("trouble.sources.telescope").add
+			require('telescope').setup({
+				extensions = {
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown {}
+					}
+				}
+			})
 
-			local telescope = require("telescope")
+			-- To get ui-select loaded and working with telescope, you need to call
+			-- load_extension, somewhere after setup function:
+			require("telescope").load_extension("ui-select")
+			
+			--local actions = require("telescope.actions")
+			--local open_with_trouble = require("trouble.sources.telescope").open
+			--local add_to_trouble = require("trouble.sources.telescope").add
+
+			--local telescope = require("telescope")
 			local builtin = require('telescope.builtin')
 
-			local opts = { noremap = true, silent = true }
+			local opts = {
+				noremap = true, silent = true
+			}
 
 			function vim.getVisualSelection()
 				vim.cmd('noau normal! "vy"')
@@ -75,5 +81,3 @@ return {
 		end,
 	},
 }
-
-
