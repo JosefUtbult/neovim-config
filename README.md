@@ -10,9 +10,10 @@ Install dependencies
 - Venv for Jedi LSP
 - Markdown for Markdown preview
 - Codespell for spelling code using Null-ls
+- FZY for fuzzy finding
 
 ```bas
-sudo apt install -y git ripgrep unzip gcc npm python3-venv cppcheck cpplint markdown codespell
+sudo apt install -y git ripgrep unzip gcc npm python3-venv cppcheck cpplint markdown codespell fzy
 ```
 
 Install the unstable version of NeoVim
