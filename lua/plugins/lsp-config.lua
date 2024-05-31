@@ -3,10 +3,13 @@ return {
 		"williamboman/mason.nvim",
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
+			'jay-babu/mason-null-ls.nvim',
+			"nvimtools/none-ls.nvim",
 		},
 		config = function()
 			require("mason").setup()
 			require("mason-lspconfig").setup({
+				automatic_installation = true,
 				ensure_installed = {
 					-- Lua
 					"lua_ls",
@@ -45,12 +48,26 @@ return {
 					"arduino_language_server",
 				}
 			})
+			require('mason-null-ls').setup({
+				automatic_installation = true,
+				ensure_installed = {
+					"stylua",
+					"checkmake",
+					"cppcheck",
+					"hadolint",
+					"black",
+					"isort",
+					"codespell",
+					"spell"
+				},
+			})
 		end,
 	},
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			"williamboman/mason.nvim",
+			"nvim-telescope/telescope.nvim",
 		},
 		config = function()
 			local lspconfig = require("lspconfig")
@@ -80,43 +97,155 @@ return {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
 					-- Enable completion triggered by <c-x><c-o>
-					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+					-- vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
 					-- Buffer local mappings.
 					-- See `:help vim.lsp.*` for documentation on any of the below functions
 					local opts = { buffer = ev.buf }
 
-					-- Activate hover
+					local opts = { noremap = true, silent = true, buffer = bufnr }
+
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-					-- Go to definition and declaration
-					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-					vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-					vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)
-					-- Go to implementation
-					vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-					-- Go to references
-					vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-					-- Open code actions
-					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-					-- Rename
-					vim.keymap.set('n', 'grn', vim.lsp.buf.rename, opts)
-
-					-- Close reference window when reference is selected
-					vim.api.nvim_create_autocmd("FileType", {
-						callback = function()
-								local bufnr = vim.fn.bufnr('%')
-								vim.keymap.set("n", "<enter>", function()
-										vim.api.nvim_command([[execute "normal! \<cr>"]])
-										vim.api.nvim_command(bufnr .. 'bd')
-								end, { buffer = bufnr })
-						end,
-						pattern = "qf",
-					})
-
-					-- <C-x><C-o>: Code compleation
+					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+					vim.keymap.set("n", "<leader>grn", vim.lsp.buf.rename, opts)
+					vim.keymap.set("n", "<leader>gr", "<cmd>Telescope lsp_references<CR>", opts)
+					vim.keymap.set("n", "<leader>gd", "<cmd>Telescope lsp_definitions<CR>", opts)
+					vim.keymap.set("n", "<leader>gD", "<cmd>Telescope diagnostics<CR>", opts)
+					vim.keymap.set("n", "<leader>gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+					vim.keymap.set("n", "<leader>gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 				end,
 			})
 		end
+	},
+	-- Allow NeoVim to act as a language server to connect to
+	-- command line tools such as linters and formatters
+	{
+		"nvimtools/none-ls.nvim",
+		dependencies = {
+			'nvim-lua/plenary.nvim'
+		},
+		config = function()
+			local null_ls = require("null-ls")
+			null_ls.setup({
+				sources = {
+					-- Builtin formatters
+					null_ls.builtins.formatting.stylua,
+					-- Makefile diagnostics
+					null_ls.builtins.diagnostics.checkmake,
+					-- C++ diagnostics
+					null_ls.builtins.diagnostics.cppcheck.with({
+						args = {
+							"--enable=warning,style,performance,portability",
+							"--template=g++",
+							"--std",
+							"$FILENAME"
+						}
+					}),
+					-- C++ formatting
+					null_ls.builtins.formatting.clang_format.with({
+						-- Use .clang-format
+						extra_args = { "--style=file" },
+					}),
+					-- Docker files
+					null_ls.builtins.diagnostics.hadolint,
+					-- Python
+					null_ls.builtins.formatting.black,
+					null_ls.builtins.formatting.isort,
+					-- Spelling
+					-- null_ls.builtins.formatting.codespell,
+					null_ls.builtins.completion.spell,
+				},
+				-- on_attach = function(client, bufnr)
+				--	-- Call any formatter related to this file using the general format function in none-ls
+				--	if client.server_capabilities.documentFormattingProvider then
+				--		vim.keymap.set(
+				--			'n',
+				--			'<leader>gfg',
+				--			vim.lsp.buf.format,
+				--			{
+				--				silent = true,
+				--				buffer = bufnr,
+				--			}
+				--		)
+				--	end
+				--	if client.server_capabilities.documentRangeFormattingProvider then
+				--		vim.keymap.set(
+				--			'v',
+				--			'<leader>gf',
+				--			vim.lsp.buf.format,
+				--			{
+				--				silent = true,
+				--				buffer = bufnr,
+				--				range = {
+				--					["start"] = vim.api.nvim_buf_get_mark(0, "<"),
+				--					["end"] = vim.api.nvim_buf_get_mark(0, ">")
+				--				}
+				--			}
+				--		)
+				--	end
+				-- end,
+			})
+		end,
+	},
+	-- Lightweight yet powerful formatter plugin for Neovim
+	{
+		"stevearc/conform.nvim",
+		enabled = true,
+		-- event = { "BufWritePre" },
+		-- cmd = { "ConformInfo" },
+		keys = {
+			{
+				"<leader>gfg",
+				function()
+					require("conform").format({
+						async = true,
+						lsp_fallback = false
+					})
+				end,
+				mode = "n",
+				desc = "Format global buffer",
+			},
+			{
+				"<leader>gf",
+				function()
+					require("conform").format({
+						async = true,
+						lsp_fallback = false,
+					})
+				end,
+				mode = "v",
+				desc = "Format visual buffer",
+			},
+			{
+				"<leader>cc",
+				"<CMD>ClangdSwitchSourceHeader<CR>",
+				mode = "n",
+				desc = "Switch between header and source file"
+			}
+		},
+		-- Everything in opts will be passed to setup()
+		opts = {
+			log_level = vim.log.levels.DEBUG,
+			-- Define your formatters
+			formatters_by_ft = {
+				lua = { "stylua" },
+				python = { "isort", "black" },
+				javascript = { { "prettierd", "prettier" } },
+				inl = { "clang-format" },
+				h   = { "clang-format" },
+				c   = { "clang-format" },
+				cpp = { "clang-format" },
+			},
+			formatters = {
+				clangd_format = {
+					command = "clang-format",
+					args = {
+						"--style=file"
+					}
+				}
+			},
+			-- Disable format-on-save
+			format_on_save = false,
+		}
 	}
 }
-

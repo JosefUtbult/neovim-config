@@ -24,7 +24,7 @@ return {
 		config = function()
 			require('trouble').setup()
 			-- Disable inline error text
-			vim.diagnostic.config({virtual_text=false})
+			-- vim.diagnostic.config({virtual_text=false})
 		end,
 	}
 }
