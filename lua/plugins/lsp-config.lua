@@ -107,12 +107,12 @@ return {
 
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-					vim.keymap.set("n", "<leader>grn", vim.lsp.buf.rename, opts)
-					vim.keymap.set("n", "<leader>gr", "<cmd>Telescope lsp_references<CR>", opts)
-					vim.keymap.set("n", "<leader>gd", "<cmd>Telescope lsp_definitions<CR>", opts)
-					vim.keymap.set("n", "<leader>gD", "<cmd>Telescope diagnostics<CR>", opts)
-					vim.keymap.set("n", "<leader>gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
-					vim.keymap.set("n", "<leader>gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+					vim.keymap.set("n", "grn", vim.lsp.buf.rename, opts)
+					vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
+					vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
+					vim.keymap.set("n", "gD", "<cmd>Telescope diagnostics<CR>", opts)
+					vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+					vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 				end,
 			})
 		end
