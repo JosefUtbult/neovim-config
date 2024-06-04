@@ -12,13 +12,25 @@ return {
 			},
 			{
 				"<leader>xs",
-				"<CMD>Trouble symbols toggle focus=true<CR>",
+				"<CMD>Trouble symbols jump focus=false<CR>",
 				desc = "Symbols (Trouble)"
 			},
 			{
 				"<leader>xc",
 				"<CMD>Trouble close<CR>",
 				desc = "Close (Trouble)"
+			}
+		},
+		opts = {
+			modes = {
+				symbols = {
+					preview = {
+						type = "split",
+						relative = "win",
+						position = "right",
+						size = 1,
+					},
+				}
 			}
 		},
 		config = function()
