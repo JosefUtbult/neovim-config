@@ -18,6 +18,13 @@ return {
 			"kdheepak/cmp-latex-symbols",
 			"rafamadriz/friendly-snippets",
 		},
+		keys = {
+			{
+				"<leader>at",
+				"<CMD>ToggleAutoComplete<CR>",
+				desc = "Toggle auto complete"
+			}
+		},
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
@@ -66,6 +73,19 @@ return {
 					{ name = "latex_symbols" },
 				},
 			})
+
+			local cmp_enabled = true
+			vim.api.nvim_create_user_command("ToggleAutoComplete", function()
+				if cmp_enabled then
+					require("cmp").setup.buffer({ enabled = false })
+					cmp_enabled = false
+					print("AutoComplete disabled")
+				else
+					require("cmp").setup.buffer({ enabled = true })
+					cmp_enabled = true
+					print("AutoComplete enabled")
+				end
+			end, {})
 		end,
 	},
 }
