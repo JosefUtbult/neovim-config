@@ -103,8 +103,6 @@ return {
 					-- See `:help vim.lsp.*` for documentation on any of the below functions
 					local opts = { buffer = ev.buf }
 
-					local opts = { noremap = true, silent = true, buffer = bufnr }
-
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 					vim.keymap.set("n", "grn", vim.lsp.buf.rename, opts)
@@ -113,7 +111,15 @@ return {
 					vim.keymap.set("n", "gD", "<cmd>Telescope diagnostics<CR>", opts)
 					vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
 					vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-				end,
+
+					-- Toggle virtual text
+					local isLspDiagnosticsVisible = true
+					vim.keymap.set("n", "<leader>ax", function()
+						isLspDiagnosticsVisible = not isLspDiagnosticsVisible
+						vim.diagnostic.config({
+							virtual_text = isLspDiagnosticsVisible,
+						}) end)
+					end,
 			})
 		end
 	},
@@ -232,8 +238,8 @@ return {
 				python = { "isort", "black" },
 				javascript = { { "prettierd", "prettier" } },
 				inl = { "clang-format" },
-				h   = { "clang-format" },
-				c   = { "clang-format" },
+				h		= { "clang-format" },
+				c		= { "clang-format" },
 				cpp = { "clang-format" },
 			},
 			formatters = {
@@ -247,5 +253,18 @@ return {
 			-- Disable format-on-save
 			format_on_save = false,
 		}
+	},
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			{
+				"SmiteshP/nvim-navbuddy",
+				dependencies = {
+					"SmiteshP/nvim-navic",
+					"MunifTanjim/nui.nvim"
+				},
+				opts = { lsp = { auto_attach = true } }
+			}
+		},
 	}
 }
