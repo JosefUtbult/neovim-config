@@ -30,3 +30,9 @@ vim.keymap.set('n', '<leader>7',        '7gt'          )
 vim.keymap.set('n', '<leader>8',        '8gt'          )
 vim.keymap.set('n', '<leader>9',        '9gt'          )
 vim.keymap.set('n', '<leader>0',        '10gt'         )
+
+-- Move to brackets on double press
+vim.keymap.set({'n', 'v'}, '{{', '[{')
+vim.keymap.set({'n', 'v'}, '}}', ']}')
+vim.keymap.set({'n', 'v'}, '((', '[(')
+vim.keymap.set({'n', 'v'}, '))', '])')
