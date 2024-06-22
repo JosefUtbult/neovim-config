@@ -1,6 +1,7 @@
 -- A completion engine plugin for neovim written in Lua.
 -- Completion sources are installed from external repositories
 -- and "sourced".
+
 return {
 	{
 		"hrsh7th/nvim-cmp",
@@ -28,6 +29,7 @@ return {
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
+			local compare = cmp.config.compare
 
 			-- Load friendly snippets
 			require("luasnip.loaders.from_vscode").lazy_load()
@@ -71,6 +73,15 @@ return {
 					{ name = "zsh" },
 					{ name = "latex_symbols" },
 					{ name = "latex_symbols" },
+					{ name = "jupynium", priority = 1000 },
+				},
+				sorting = {
+					priority_weight = 1.0,
+					comparators = {
+						compare.score,            -- Jupyter kernel completion shows prior to LSP
+						compare.recently_used,
+						compare.locality,
+					},
 				},
 			})
 

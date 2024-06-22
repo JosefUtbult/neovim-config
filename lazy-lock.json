@@ -15,6 +15,7 @@
   "friendly-snippets": { "branch": "main", "commit": "d0610077b6129cf9f7f78afbe3a1425d60f6e2f1" },
   "indent-blankline.nvim": { "branch": "master", "commit": "d98f537c3492e87b6dc6c2e3f66ac517528f406f" },
   "indent-o-matic": { "branch": "master", "commit": "4d11e98f523d3c4500b1dc33f0d1a248a4f69719" },
+  "jupynium.nvim": { "branch": "master", "commit": "e7d75fb7afb4cc70f571e2b9bde10567b99e51cd" },
   "lazy.nvim": { "branch": "main", "commit": "c501b429cf995c645454539b924aaefae45bb9eb" },
   "lualine.nvim": { "branch": "master", "commit": "0a5a66803c7407767b799067986b4dc3036e1983" },
   "markdown-preview.nvim": { "branch": "master", "commit": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee" },
