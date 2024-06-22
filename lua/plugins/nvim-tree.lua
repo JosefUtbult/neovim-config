@@ -13,7 +13,8 @@ return {
 			{
 				'<C-n>',
 				':NvimTreeFindFileToggle<CR>',
-				desc = "NvimTree toggle"
+				desc = "NvimTree toggle",
+				silent = true
 			}
 		},
 		config = function()

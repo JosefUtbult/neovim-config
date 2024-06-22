@@ -266,5 +266,10 @@ return {
 				opts = { lsp = { auto_attach = true } }
 			}
 		},
+	},
+	-- Nicer looking LSP output
+	{
+		"j-hui/fidget.nvim",
+		tag = "v1.4.5",
 	}
 }

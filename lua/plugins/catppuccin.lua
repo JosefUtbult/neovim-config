@@ -7,6 +7,12 @@ return {
 		opts = {
 			flavour = "macchiato",
 			transparent_background = true,
+			color_overrides = {
+				all = {
+					-- Use the nice peach color instead of the standard blue
+					blue = "#f5a97f",
+				},
+			},
 			integrations = {
 				mason = true,
 				neotree = true,
