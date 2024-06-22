@@ -2,9 +2,18 @@
 return {
 	{
 		'tweekmonster/spellrotate.vim',
-		config = function()
-			vim.keymap.set('n', ';;', '<Plug>(SpellRotateForward)')
-			vim.keymap.set('i', ';;', '<C-O><Plug>(SpellRotateForward)')
-		end
+		keys = {
+			{
+				';;',
+				'<Plug>(SpellRotateForward)',
+				desc = "Spell rotation (normal)"
+			},
+			{
+				';;',
+				'<C-O><Plug>(SpellRotateForward)',
+				mode = "i",
+				desc = "Spell rotation (insert)"
+			}
+		},
 	}
 }

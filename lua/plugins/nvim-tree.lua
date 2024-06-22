@@ -9,17 +9,19 @@ return {
 			'nvim-lua/plenary.nvim',
 			'MunifTanjim/nui.nvim',
 		},
+		keys = {
+			{
+				'<C-n>',
+				':NvimTreeFindFileToggle<CR>',
+				desc = "NvimTree toggle"
+			}
+		},
 		config = function()
+			require('nvim-tree').setup()
+
 			-- Disable netrw
 			vim.g.loaded_netrw = 1
 			vim.g.loaded_netrwPlugin = 1
-
-			-- Setup nvim-tree
-			require('nvim-tree').setup({
-				-- Map <C-n> to toggle NvimTree
-				vim.keymap.set('n', '<C-n>', ':NvimTreeFindFileToggle<CR>')
-			})
-
 		end,
 	}
 }
