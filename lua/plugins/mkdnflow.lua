@@ -1,6 +1,7 @@
 return {
 	{
 		"jakewvincent/mkdnflow.nvim",
+		enabled = false,
 		dependencies = { 'nvim-lua/plenary.nvim' },
 		opts = {
 			perspective = {

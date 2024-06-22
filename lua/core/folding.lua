@@ -10,3 +10,5 @@ vim.api.nvim_create_autocmd({"BufWinEnter"}, {
 	command = "silent! loadview"
 })
 
+-- Set conceal level which is required by the obsidian plugin
+vim.o.conceallevel = 2
