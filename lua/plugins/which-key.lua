@@ -2,6 +2,7 @@ return {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
+		-- enabled = false,
 		init = function()
 			vim.o.timeout = true
 			vim.o.timeoutlen = 300
@@ -9,7 +10,12 @@ return {
 		opts = {
 			window = {
 				border = "single"
-			}
+			},
+			triggers_blacklist = {
+			n = { "<c-t>", "<c-n>", "<c-p>" },
+			i = { "<c-t>", "<c-n>", "<c-p>", "j", "k", ";" },
+			v = { "<c-t>", "<c-n>", "<c-p>", "j", "k", ";" },
+		},
 		}
 	}
 }
