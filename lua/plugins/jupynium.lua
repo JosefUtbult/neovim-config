@@ -43,8 +43,13 @@ return {
 			},
 		},
 		build = "\
-			pip3 install --user --break-system-packages notebook nbclassic jupyter-console jupyterthemes && \
-			pip3 install --user --break-system-packages . && \
+			if [[ -f \"/etc/os-release\" && \"$(cat /etc/os-release | sed -E 's/^NAME=\"(.*)\"$/\1/gm;t;d')\" == \"Ubuntu\" ]]; then \
+				pip3 install --user --break-system-packages notebook nbclassic jupyter-console jupyterthemes && \
+				pip3 install --user --break-system-packages . && \
+			else \
+				pip3 install --user notebook nbclassic jupyter-console jupyterthemes && \
+				pip3 install --user . && \
+			fi \
 			jt -t onedork",
 		opts = {
 			textobjects = {
