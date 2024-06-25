@@ -110,7 +110,8 @@ return {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown {}
 					}
-				}
+				},
+				file_ignore_patterns = { "DSP" }
 			})
 
 			-- To get ui-select loaded and working with telescope, you need to call
