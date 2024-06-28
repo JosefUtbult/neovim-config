@@ -18,14 +18,22 @@ vim.opt.smartcase = true
 -- Use smart indentation
 vim.opt.smartindent = true
 
--- Set tab behaviour
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
-
 -- Enable wrapping by default
 vim.opt.wrap = true
 
 -- Enable squiggly underlines
 vim.diagnostic.config({ virtual_text = true })
 vim.cmd.highlight('highlight-name gui=undercurl')
+
+-- Set tab behaviour
+if(os.getenv("CLAVIA") == true) then
+	-- On Clavia, indentation is always 2 spaces
+	vim.opt.tabstop = 2
+	vim.opt.softtabstop = 2
+	vim.opt.shiftwidth = 2
+else
+	vim.opt.tabstop = 4
+	vim.opt.softtabstop = 4
+	vim.opt.shiftwidth = 4
+end
+
