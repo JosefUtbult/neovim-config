@@ -1,69 +1,5 @@
 return {
 	{
-		"williamboman/mason.nvim",
-		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
-			'jay-babu/mason-null-ls.nvim',
-			"nvimtools/none-ls.nvim",
-		},
-		config = function()
-			require("mason").setup()
-			require("mason-lspconfig").setup({
-				automatic_installation = true,
-				ensure_installed = {
-					-- Lua
-					"lua_ls",
-					-- JS
-					"tsserver",
-					-- Bash
-					"bashls",
-					-- C/C++
-					"clangd",
-					"cmake",
-					-- Rust
-					"rust_analyzer",
-					-- CSS
-					"cssls",
-					-- HTML
-					"html",
-					-- Docker
-					"dockerls",
-					-- Docker Compose
-					"docker_compose_language_service",
-					-- JSON
-					"jsonls",
-					-- LaTex
-					--"ltex",
-					-- Make
-					"autotools_ls",
-					-- Markdown
-					"marksman",
-					-- Python
-					"jedi_language_server",
-					-- YAML
-					"yamlls",
-					-- XML
-					"lemminx",
-					-- Arduino
-					"arduino_language_server",
-				}
-			})
-			require('mason-null-ls').setup({
-				automatic_installation = true,
-				ensure_installed = {
-					"stylua",
-					"checkmake",
-					"cppcheck",
-					"hadolint",
-					"black",
-					"isort",
-					"codespell",
-					"spell"
-				},
-			})
-		end,
-	},
-	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			"williamboman/mason.nvim",
@@ -161,35 +97,6 @@ return {
 					-- null_ls.builtins.formatting.codespell,
 					null_ls.builtins.completion.spell,
 				},
-				-- on_attach = function(client, bufnr)
-				--	-- Call any formatter related to this file using the general format function in none-ls
-				--	if client.server_capabilities.documentFormattingProvider then
-				--		vim.keymap.set(
-				--			'n',
-				--			'<leader>gfg',
-				--			vim.lsp.buf.format,
-				--			{
-				--				silent = true,
-				--				buffer = bufnr,
-				--			}
-				--		)
-				--	end
-				--	if client.server_capabilities.documentRangeFormattingProvider then
-				--		vim.keymap.set(
-				--			'v',
-				--			'<leader>gf',
-				--			vim.lsp.buf.format,
-				--			{
-				--				silent = true,
-				--				buffer = bufnr,
-				--				range = {
-				--					["start"] = vim.api.nvim_buf_get_mark(0, "<"),
-				--					["end"] = vim.api.nvim_buf_get_mark(0, ">")
-				--				}
-				--			}
-				--		)
-				--	end
-				-- end,
 			})
 		end,
 	},
@@ -197,11 +104,9 @@ return {
 	{
 		"stevearc/conform.nvim",
 		enabled = true,
-		-- event = { "BufWritePre" },
-		-- cmd = { "ConformInfo" },
 		keys = {
 			{
-				"<leader>gfg",
+				"<leader>gf",
 				function()
 					require("conform").format({
 						async = true,

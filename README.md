@@ -11,9 +11,9 @@
 - Markdown for Markdown preview
 - Codespell for spelling code using Null-ls
 - FZY for fuzzy finding
-
+- Fd-find for finding executables for the DAP
 ```bas
-sudo apt install -y git ripgrep unzip gcc npm python3-venv cppcheck cpplint markdown codespell fzy
+sudo apt install -y git ripgrep unzip gcc npm python3-venv cppcheck cpplint markdown codespell fzy fd-find
 ```
 
 You will also need to install some python plugins
