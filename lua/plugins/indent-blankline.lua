@@ -3,6 +3,13 @@ return {
 	{
 		'lukas-reineke/indent-blankline.nvim',
 		main = 'ibl',
+		-- keys = {
+		-- 	{
+		-- 		"<leader>ai",
+		-- 		":IBLEnable<CR>",
+		-- 		desc = "Toggle indention guides"
+		-- 	}
+		-- },
 		config = function()
 			local highlight = {
 				"Gray0",

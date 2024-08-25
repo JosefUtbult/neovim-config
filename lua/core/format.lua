@@ -26,7 +26,7 @@ vim.diagnostic.config({ virtual_text = true })
 vim.cmd.highlight('highlight-name gui=undercurl')
 
 -- Set tab behaviour
-if(os.getenv("CLAVIA") == true) then
+if(os.getenv("CLAVIA") ~= nil) then
 	-- On Clavia, indentation is always 2 spaces
 	vim.opt.tabstop = 2
 	vim.opt.softtabstop = 2
@@ -37,3 +37,9 @@ else
 	vim.opt.shiftwidth = 4
 end
 
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+
+-- Disable conceal level
+vim.o.conceallevel = 0

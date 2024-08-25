@@ -61,6 +61,10 @@ return {
 				return title .. ".md"
 			end,
 			preferred_link_style = "wiki",
+			ui = {
+				-- Disable the plugins UI tools
+				enable = false
+			}
 		},
 	}
 }
