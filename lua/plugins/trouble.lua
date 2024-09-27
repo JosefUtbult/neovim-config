@@ -2,41 +2,34 @@ return {
 	{
 		"folke/trouble.nvim",
 		dependencies = {
-			"nvim-tree/nvim-web-devicons"
+			"nvim-tree/nvim-web-devicons",
 		},
 		keys = {
 			{
 				"<leader>xx",
 				"<CMD>Trouble diagnostics jump focus=false<CR>",
-				desc = "Diagnostics (Trouble)"
+				desc = "Diagnostics (Trouble)",
+			},
+			{
+				"<leader>xX",
+				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+				desc = "Buffer Diagnostics (Trouble)",
 			},
 			{
 				"<leader>xs",
-				"<CMD>Trouble symbols jump focus=false<CR>",
-				desc = "Symbols (Trouble)"
+				"<CMD>Trouble symbols jump focus=true win.size=0.5<CR>",
+				desc = "Symbols (Trouble)",
 			},
 			{
 				"<leader>xc",
 				"<CMD>Trouble close<CR>",
-				desc = "Close (Trouble)"
-			}
-		},
-		opts = {
-			modes = {
-				symbols = {
-					preview = {
-						type = "split",
-						relative = "win",
-						position = "right",
-						size = 1,
-					},
-				}
-			}
+				desc = "Close (Trouble)",
+			},
 		},
 		config = function()
-			require('trouble').setup()
+			require("trouble").setup()
 			-- Disable inline error text
 			-- vim.diagnostic.config({virtual_text=false})
 		end,
-	}
+	},
 }

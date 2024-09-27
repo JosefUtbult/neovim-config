@@ -23,8 +23,8 @@ return {
 			{
 				"<leader>at",
 				"<CMD>ToggleAutoComplete<CR>",
-				desc = "Toggle auto complete"
-			}
+				desc = "Toggle auto complete",
+			},
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -33,6 +33,10 @@ return {
 
 			-- Load friendly snippets
 			require("luasnip.loaders.from_vscode").lazy_load()
+
+			local filter_text = function(entry, ctx)
+				return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
+			end
 
 			cmp.setup({
 				snippet = {
@@ -63,22 +67,22 @@ return {
 					end, { "i", "s" }),
 				},
 				sources = {
-					{ name = "nvim_lsp" },
-					{ name = "nvim_lua" },
-					{ name = "luasnip" },
-					{ name = "buffer" },
-					{ name = "path" },
-					{ name = "nvim_lua" },
-					{ name = "obsidian.nvim" },
-					{ name = "zsh" },
-					{ name = "latex_symbols" },
-					{ name = "latex_symbols" },
-					{ name = "jupynium", priority = 1000 },
+					{ name = "nvim_lsp",      entry_filter = filter_text },
+					{ name = "nvim_lua",      entry_filter = filter_text },
+					{ name = "luasnip",       entry_filter = filter_text },
+					{ name = "buffer",        entry_filter = filter_text },
+					{ name = "path",          entry_filter = filter_text },
+					{ name = "nvim_lua",      entry_filter = filter_text },
+					{ name = "obsidian.nvim", entry_filter = filter_text },
+					{ name = "zsh",           entry_filter = filter_text },
+					{ name = "latex_symbols", entry_filter = filter_text },
+					{ name = "latex_symbols", entry_filter = filter_text },
+					{ name = "jupynium",      entry_filter = filter_text, priority = 1000 },
 				},
 				sorting = {
 					priority_weight = 1.0,
 					comparators = {
-						compare.score,            -- Jupyter kernel completion shows prior to LSP
+						compare.score, -- Jupyter kernel completion shows prior to LSP
 						compare.recently_used,
 						compare.locality,
 					},
