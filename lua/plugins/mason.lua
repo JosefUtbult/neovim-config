@@ -1,8 +1,8 @@
 return {
 	{
 		"williamboman/mason.nvim",
-		config = function()
-			require('mason').setup()
+		config = function(opts)
+			require('mason').setup(opts)
 		end
 	},
 	{
@@ -16,14 +16,12 @@ return {
 				-- Lua
 				"lua_ls",
 				-- JS
-				"tsserver",
+				"ts_ls",
 				-- Bash
 				"bashls",
 				-- C/C++
 				"clangd",
 				"cmake",
-				-- Rust
-				"rust_analyzer",
 				-- CSS
 				"cssls",
 				-- HTML
@@ -48,7 +46,10 @@ return {
 				"lemminx",
 				-- Arduino
 				"arduino_language_server",
-			}
+			},
+			config = function(opts)
+				require('mason-lspconfig').setup(opts)
+			end
 		},
 		{
 			"jay-babu/mason-null-ls.nvim",
@@ -66,7 +67,8 @@ return {
 					"black",
 					"isort",
 					"codespell",
-					"spell"
+					"spell",
+					"rust-analyzer"
 				},
 			}
 		},

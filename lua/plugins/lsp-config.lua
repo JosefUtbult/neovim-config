@@ -4,28 +4,30 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"nvim-telescope/telescope.nvim",
+			"hrsh7th/cmp-nvim-lsp"
 		},
 		config = function()
 			local lspconfig = require("lspconfig")
+			local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-			lspconfig.lua_ls.setup({})
-			lspconfig.tsserver.setup({})
-			lspconfig.bashls.setup({})
-			lspconfig.clangd.setup({})
-			lspconfig.cmake.setup({})
-			lspconfig.rust_analyzer.setup({})
-			lspconfig.cssls.setup({})
-			lspconfig.html.setup({})
-			lspconfig.dockerls.setup({})
-			lspconfig.docker_compose_language_service.setup({})
-			lspconfig.jsonls.setup({})
-			-- lspconfig.ltex.setup({})
-			lspconfig.autotools_ls.setup({})
-			lspconfig.marksman.setup({})
-			lspconfig.jedi_language_server.setup({})
-			lspconfig.yamlls.setup({})
-			lspconfig.lemminx.setup({})
-			lspconfig.arduino_language_server.setup({})
+			lspconfig.lua_ls.setup({ capabilities = capabilities })
+			lspconfig.ts_ls.setup({ capabilities = capabilities })
+			lspconfig.bashls.setup({ capabilities = capabilities })
+			lspconfig.clangd.setup({ capabilities = capabilities })
+			lspconfig.cmake.setup({ capabilities = capabilities })
+			lspconfig.rust_analyzer.setup({ capabilities = capabilities })
+			lspconfig.cssls.setup({ capabilities = capabilities })
+			lspconfig.html.setup({ capabilities = capabilities })
+			lspconfig.dockerls.setup({ capabilities = capabilities })
+			lspconfig.docker_compose_language_service.setup({ capabilities = capabilities })
+			lspconfig.jsonls.setup({ capabilities = capabilities })
+			-- lspconfig.ltex.setup({ capabilities = capabilities })
+			lspconfig.autotools_ls.setup({ capabilities = capabilities })
+			lspconfig.marksman.setup({ capabilities = capabilities })
+			lspconfig.jedi_language_server.setup({ capabilities = capabilities })
+			lspconfig.yamlls.setup({ capabilities = capabilities })
+			lspconfig.lemminx.setup({ capabilities = capabilities })
+			lspconfig.arduino_language_server.setup({ capabilities = capabilities })
 
 			-- Use LspAttach autocommand to only map the following keys
 			-- after the language server attaches to the current buffer
@@ -146,6 +148,7 @@ return {
 				h		= { "clang-format" },
 				c		= { "clang-format" },
 				cpp = { "clang-format" },
+				rust = { "rust-analyzer", lsp_format = "fallback" },
 			},
 			formatters = {
 				clangd_format = {
