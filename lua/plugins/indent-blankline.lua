@@ -1,12 +1,12 @@
 -- Setup indent blank line
 return {
 	{
-		'lukas-reineke/indent-blankline.nvim',
-		main = 'ibl',
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
 		-- keys = {
 		-- 	{
 		-- 		"<leader>ai",
-		-- 		":IBLEnable<CR>",
+		-- 		":ToggleIndent<CR>",
 		-- 		desc = "Toggle indention guides"
 		-- 	}
 		-- },
@@ -20,7 +20,7 @@ return {
 				"Gray5",
 				"Gray6",
 			}
-			local hooks = require "ibl.hooks"
+			local hooks = require("ibl.hooks")
 			-- create the highlight groups in the highlight setup hook, so they are reset
 			-- every time the colorscheme changes
 			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
@@ -33,17 +33,22 @@ return {
 				vim.api.nvim_set_hl(0, "Gray6", { fg = "#DDDDDD" })
 			end)
 
-			require("ibl").setup {
+			local opts = {
+				enabled = true,
 				indent = {
 					-- Use our custom highlight colors
 					highlight = highlight,
 					-- Use the wider dotted character for spaces
-					char="┋",
+					char = "┋",
 					-- Use the thinner dotted character for tabs
-					tab_char="┊"
-				}
+					tab_char = "┊",
+				},
 			}
-		end,
-	}
-}
 
+			require("ibl").setup(opts)
+			
+			-- Toggle indentation guides on <leader>ai
+			vim.keymap.set("n", "<leader>ai", ":IBLToggle<CR>")
+		end,
+	},
+}
