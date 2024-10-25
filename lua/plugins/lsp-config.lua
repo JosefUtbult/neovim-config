@@ -4,69 +4,92 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"nvim-telescope/telescope.nvim",
-			"hrsh7th/cmp-nvim-lsp"
+			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
 			local lspconfig = require("lspconfig")
-			local capabilities = require('cmp_nvim_lsp').default_capabilities()
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			lspconfig.lua_ls.setup({ capabilities = capabilities })
-			lspconfig.ts_ls.setup({ capabilities = capabilities })
-			lspconfig.bashls.setup({ capabilities = capabilities })
-			lspconfig.clangd.setup({ capabilities = capabilities })
-			lspconfig.cmake.setup({ capabilities = capabilities })
-			lspconfig.rust_analyzer.setup({ capabilities = capabilities })
-			lspconfig.cssls.setup({ capabilities = capabilities })
-			lspconfig.html.setup({ capabilities = capabilities })
-			lspconfig.dockerls.setup({ capabilities = capabilities })
-			lspconfig.docker_compose_language_service.setup({ capabilities = capabilities })
-			lspconfig.jsonls.setup({ capabilities = capabilities })
-			-- lspconfig.ltex.setup({ capabilities = capabilities })
-			lspconfig.autotools_ls.setup({ capabilities = capabilities })
-			lspconfig.marksman.setup({ capabilities = capabilities })
-			lspconfig.jedi_language_server.setup({ capabilities = capabilities })
-			lspconfig.yamlls.setup({ capabilities = capabilities })
-			lspconfig.lemminx.setup({ capabilities = capabilities })
-			lspconfig.arduino_language_server.setup({ capabilities = capabilities })
+			-- Set up each language server and enable inline hints and virtual text by default
+			local servers = {
+				"lua_ls",
+				"ts_ls",
+				"bashls",
+				"clangd",
+				"cmake",
+				"rust_analyzer",
+				"cssls",
+				"html",
+				"dockerls",
+				"docker_compose_language_service",
+				"jsonls",
+				"autotools_ls",
+				"marksman",
+				"jedi_language_server",
+				"yamlls",
+				"lemminx",
+				"arduino_language_server",
+			}
 
-			-- Use LspAttach autocommand to only map the following keys
-			-- after the language server attaches to the current buffer
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-				callback = function(ev)
-					-- Enable completion triggered by <c-x><c-o>
-					-- vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+			function on_server_attach(client, bufnr)
+				vim.keymap.set("n", "K",          vim.lsp.buf.hover,                          { buffer = bufnr, desc = "Show context menu"            })
+				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,                    { buffer = bufnr, desc = "Show code actions"            })
+				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,                         { buffer = bufnr, desc = "LSP Rename"                   })
+				vim.keymap.set("n", "gr",         "<cmd>Telescope lsp_references<CR>",        { buffer = bufnr, desc = "Go to LSP references"         })
+				vim.keymap.set("n", "gd",         "<cmd>Telescope lsp_definitions<CR>",       { buffer = bufnr, desc = "Go to LSP definitions"        })
+				vim.keymap.set("n", "gD",         "<cmd>Telescope diagnostics<CR>",           { buffer = bufnr, desc = "Show LSP diagnostics"         })
+				vim.keymap.set("n", "gt",         "<cmd>Telescope lsp_type_definitions<CR>",  { buffer = bufnr, desc = "Go to LSP type definition"    })
+				vim.keymap.set("n", "gl",         "<cmd>lua vim.diagnostic.open_float()<CR>", { buffer = bufnr, desc = "Show LSP diagnostics (float)" })
 
-					-- Buffer local mappings.
-					-- See `:help vim.lsp.*` for documentation on any of the below functions
-					local opts = { buffer = ev.buf }
+				-- Enable inline hints when the server attaches to a buffer
+				if client.supports_method("textDocument/inlayHint") then
+					vim.lsp.inlay_hint.enable(true)
+					-- Toggle inline hints
+					vim.keymap.set("n", "<leader>an", function()
+						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 
-					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-					vim.keymap.set("n", "grn", vim.lsp.buf.rename, opts)
-					vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
-					vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
-					vim.keymap.set("n", "gD", "<cmd>Telescope diagnostics<CR>", opts)
-					vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
-					vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+						if vim.lsp.inlay_hint.is_enabled() then
+							print("Enabled inline hints")
+						else
+							print("Disabled inline hints")
+						end
+					end, { desc = "Toggle inline hints", buffer = bufnr })
+				end
 
-					-- Toggle virtual text
-					local isLspDiagnosticsVisible = true
+				-- Enable virtual text diagnostics when the server attaches to a buffer
+				if client.supports_method("textDocument/publishDiagnostics") then
+					-- -- Toggle virtual text
 					vim.keymap.set("n", "<leader>ax", function()
-						isLspDiagnosticsVisible = not isLspDiagnosticsVisible
-						vim.diagnostic.config({
-							virtual_text = isLspDiagnosticsVisible,
-						}) end)
-					end,
-			})
-		end
+						vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+
+						if vim.diagnostic.is_enabled() then
+							print("Enabled inline diagnostics")
+						else
+							print("Disabled inline diagnostics")
+						end
+					end, { desc = "Toggle virtual text diagnostics", buffer = bufnr })
+				end
+			end
+
+			local opts = {
+				capabilities = capabilities,
+				on_attach = on_server_attach,
+				inlay_hints = { enabled = true },
+				document_highlight = { enabled = true },
+				codelens = { enabled = true },
+			}
+
+			for _, server in ipairs(servers) do
+				lspconfig[server].setup(opts)
+			end
+		end,
 	},
 	-- Allow NeoVim to act as a language server to connect to
 	-- command line tools such as linters and formatters
 	{
 		"nvimtools/none-ls.nvim",
 		dependencies = {
-			'nvim-lua/plenary.nvim'
+			"nvim-lua/plenary.nvim",
 		},
 		config = function()
 			local null_ls = require("null-ls")
@@ -82,8 +105,8 @@ return {
 							"--enable=warning,style,performance,portability",
 							"--template=g++",
 							"--std",
-							"$FILENAME"
-						}
+							"$FILENAME",
+						},
 					}),
 					-- C++ formatting
 					null_ls.builtins.formatting.clang_format.with({
@@ -112,7 +135,7 @@ return {
 				function()
 					require("conform").format({
 						async = true,
-						lsp_fallback = false
+						lsp_fallback = false,
 					})
 				end,
 				mode = "n",
@@ -133,8 +156,8 @@ return {
 				"<leader>cc",
 				"<CMD>ClangdSwitchSourceHeader<CR>",
 				mode = "n",
-				desc = "Switch between header and source file"
-			}
+				desc = "Switch between header and source file",
+			},
 		},
 		-- Everything in opts will be passed to setup()
 		opts = {
@@ -145,8 +168,8 @@ return {
 				python = { "isort", "black" },
 				javascript = { { "prettierd", "prettier" } },
 				inl = { "clang-format" },
-				h		= { "clang-format" },
-				c		= { "clang-format" },
+				h = { "clang-format" },
+				c = { "clang-format" },
 				cpp = { "clang-format" },
 				rust = { "rust-analyzer", lsp_format = "fallback" },
 			},
@@ -154,30 +177,17 @@ return {
 				clangd_format = {
 					command = "clang-format",
 					args = {
-						"--style=file"
-					}
-				}
+						"--style=file",
+					},
+				},
 			},
 			-- Disable format-on-save
 			format_on_save = false,
-		}
-	},
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			{
-				"SmiteshP/nvim-navbuddy",
-				dependencies = {
-					"SmiteshP/nvim-navic",
-					"MunifTanjim/nui.nvim"
-				},
-				opts = { lsp = { auto_attach = true } }
-			}
 		},
 	},
-	-- Nicer looking LSP output
 	{
 		"j-hui/fidget.nvim",
 		tag = "v1.4.5",
-	}
+	},
 }
+
