@@ -13,38 +13,21 @@ return {
 		opts = {
 			automatic_installation = true,
 			ensure_installed = {
-				-- Lua
 				"lua_ls",
-				-- JS
 				"ts_ls",
-				-- Bash
 				"bashls",
-				-- C/C++
 				"clangd",
 				"cmake",
-				-- CSS
 				"cssls",
-				-- HTML
 				"html",
-				-- Docker
 				"dockerls",
-				-- Docker Compose
 				"docker_compose_language_service",
-				-- JSON
 				"jsonls",
-				-- LaTex
-				--"ltex",
-				-- Make
 				"autotools_ls",
-				-- Markdown
 				"marksman",
-				-- Python
 				"jedi_language_server",
-				-- YAML
 				"yamlls",
-				-- XML
 				"lemminx",
-				-- Arduino
 				"arduino_language_server",
 			},
 			config = function(opts)
