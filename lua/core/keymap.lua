@@ -14,6 +14,11 @@ vim.keymap.set('i', 'qq', '<C-O><End>', {silent = true})
 -- Reverse lines in visual mode
 vim.keymap.set('v', 't', ':!tac<CR>', {silent = true})
 
+-- Copy-paste to global buffer
+vim.keymap.set({'n', 'v'}, 'Y', '"+y')
+vim.keymap.set('n', 'YY', '"+yy')
+vim.keymap.set('n', 'P', '"+p')
+
 -- Open a new buffer with the same file as the last
 function clone_tab()
 	local current_file = vim.api.nvim_buf_get_name(0)
