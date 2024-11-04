@@ -42,4 +42,4 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 
 -- Disable conceal level
-vim.o.conceallevel = 0
+vim.opt.conceallevel = 0

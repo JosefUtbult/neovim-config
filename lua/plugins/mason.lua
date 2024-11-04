@@ -14,9 +14,7 @@ return {
 			automatic_installation = true,
 			ensure_installed = {
 				"lua_ls",
-				"ts_ls",
 				"bashls",
-				"clangd",
 				"cmake",
 				"cssls",
 				"html",
@@ -43,6 +41,7 @@ return {
 			opts = {
 				automatic_installation = true,
 				ensure_installed = {
+					"clangd",
 					"stylua",
 					"checkmake",
 					"cppcheck",

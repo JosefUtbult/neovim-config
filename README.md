@@ -60,18 +60,6 @@ Finally, you can use APT to install the Firefox DEB in Ubuntu
 sudo apt update && sudo apt install firefox
 ```
 
-## Install Ollama for LLM
-
-Install Ollama
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-```
-
-Download the code-gemma LLM
-```bash
-ollama pull code-gemma2
-```
-
 ## Install NeoVim
 
 Install the unstable version of NeoVim

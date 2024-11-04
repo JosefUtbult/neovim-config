@@ -13,9 +13,7 @@ return {
 			-- Set up each language server and enable inline hints and virtual text by default
 			local servers = {
 				"lua_ls",
-				"ts_ls",
 				"bashls",
-				"clangd",
 				"cmake",
 				"rust_analyzer",
 				"cssls",
@@ -71,6 +69,31 @@ return {
 				end
 			end
 
+			function on_server_attach_clangd(client, bufnr)
+				vim.keymap.set("n", "K",          vim.lsp.buf.hover,                          { buffer = bufnr, desc = "Show context menu"            })
+				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,                    { buffer = bufnr, desc = "Show code actions"            })
+				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,                         { buffer = bufnr, desc = "LSP Rename"                   })
+				vim.keymap.set("n", "gr",         "<cmd>Telescope lsp_references<CR>",        { buffer = bufnr, desc = "Go to LSP references"         })
+				vim.keymap.set("n", "gd",         "<cmd>Telescope lsp_definitions<CR>",       { buffer = bufnr, desc = "Go to LSP definitions"        })
+				vim.keymap.set("n", "gD",         "<cmd>Telescope diagnostics<CR>",           { buffer = bufnr, desc = "Show LSP diagnostics"         })
+				vim.keymap.set("n", "gt",         "<cmd>Telescope lsp_type_definitions<CR>",  { buffer = bufnr, desc = "Go to LSP type definition"    })
+				vim.keymap.set("n", "gl",         "<cmd>lua vim.diagnostic.open_float()<CR>", { buffer = bufnr, desc = "Show LSP diagnostics (float)" })
+
+				-- Enable virtual text diagnostics when the server attaches to a buffer
+				if client.supports_method("textDocument/publishDiagnostics") then
+					-- -- Toggle virtual text
+					vim.keymap.set("n", "<leader>ax", function()
+						vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+
+						if vim.diagnostic.is_enabled() then
+							print("Enabled inline diagnostics")
+						else
+							print("Disabled inline diagnostics")
+						end
+					end, { desc = "Toggle virtual text diagnostics", buffer = bufnr })
+				end
+			end
+
 			local opts = {
 				capabilities = capabilities,
 				on_attach = on_server_attach,
@@ -82,6 +105,15 @@ return {
 			for _, server in ipairs(servers) do
 				lspconfig[server].setup(opts)
 			end
+
+			-- Clangd has some issue with inline text...
+			lspconfig["clangd"].setup({
+				capabilities = capabilities,
+				on_attach = on_server_attach_clangd,
+				inlay_hints = { enabled = true },
+				document_highlight = { enabled = true },
+				codelens = { enabled = true },
+			})
 		end,
 	},
 	-- Allow NeoVim to act as a language server to connect to
