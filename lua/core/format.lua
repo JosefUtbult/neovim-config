@@ -32,14 +32,10 @@ if(os.getenv("CLAVIA") ~= nil) then
 	vim.opt.softtabstop = 2
 	vim.opt.shiftwidth = 2
 else
-	vim.opt.tabstop = 4
-	vim.opt.softtabstop = 4
-	vim.opt.shiftwidth = 4
+	vim.opt.tabstop = 3
+	vim.opt.softtabstop = 3
+	vim.opt.shiftwidth = 3
 end
-
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
 
 -- Disable conceal level
 vim.opt.conceallevel = 0
