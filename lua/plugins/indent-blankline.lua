@@ -2,14 +2,8 @@
 return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-		-- keys = {
-		-- 	{
-		-- 		"<leader>ai",
-		-- 		":ToggleIndent<CR>",
-		-- 		desc = "Toggle indention guides"
-		-- 	}
-		-- },
+		enabled = true,
+		commit = "d343409a9f7ce4573955a181a0dfb71a103040d3",
 		config = function()
 			local highlight = {
 				"Gray0",

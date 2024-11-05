@@ -1,3 +1,4 @@
+
 packages = {
 	{
 		"hrsh7th/nvim-cmp",
@@ -14,6 +15,7 @@ packages = {
 			"epwalsh/obsidian.nvim",
 			"kdheepak/cmp-latex-symbols",
 			"rafamadriz/friendly-snippets",
+			"nvim-lua/plenary.nvim",
 		},
 		keys = {
 			{
@@ -41,7 +43,7 @@ packages = {
 					end,
 				},
 				mapping = {
-					["<Tab>"] = cmp.mapping.confirm({ select = true }),
+					["<S-Tab>"] = cmp.mapping.confirm({ select = true }),
 					["<C-e>"] = cmp.mapping.close(),
 					["<C-n>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
@@ -63,17 +65,17 @@ packages = {
 					end, { "i", "s" }),
 				},
 				sources = {
-					{ name = 'cmp_ai',        entry_filter = filter_text },
-					{ name = "nvim_lsp",      entry_filter = filter_text },
-					{ name = "nvim_lua",      entry_filter = filter_text },
-					{ name = "luasnip",       entry_filter = filter_text },
-					{ name = "buffer",        entry_filter = filter_text },
-					{ name = "path",          entry_filter = filter_text },
-					{ name = "nvim_lua",      entry_filter = filter_text },
-					{ name = "obsidian.nvim", entry_filter = filter_text },
-					{ name = "zsh",           entry_filter = filter_text },
-					{ name = "latex_symbols", entry_filter = filter_text },
-					{ name = "latex_symbols", entry_filter = filter_text },
+					{ name = "codeium",       entry_filter = filter_text, priority = 1    },
+					{ name = "nvim_lsp",      entry_filter = filter_text, priority = 10   },
+					{ name = "nvim_lua",      entry_filter = filter_text, priority = 10   },
+					{ name = "luasnip",       entry_filter = filter_text, priority = 10   },
+					{ name = "buffer",        entry_filter = filter_text, priority = 10   },
+					{ name = "path",          entry_filter = filter_text, priority = 10   },
+					{ name = "nvim_lua",      entry_filter = filter_text, priority = 10   },
+					{ name = "obsidian.nvim", entry_filter = filter_text, priority = 10   },
+					{ name = "zsh",           entry_filter = filter_text, priority = 10   },
+					{ name = "latex_symbols", entry_filter = filter_text, priority = 10   },
+					{ name = "latex_symbols", entry_filter = filter_text, priority = 10   },
 					{ name = "jupynium",      entry_filter = filter_text, priority = 1000 },
 				},
 				sorting = {
@@ -104,55 +106,38 @@ packages = {
 
 -- No AI on Clavia thank you
 if(os.getenv("CLAVIA") == nil) then
-	packages.append({
+	table.insert(packages, {
 		"Exafunction/codeium.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"hrsh7th/nvim-cmp",
+			-- This is the wrong way around, but that is what codeium recommends
+			-- "hrsh7th/nvim-cmp",
 		},
-		opts = {
-			-- Optionally disable cmp source if using virtual text only
-			enable_cmp_source = false,
+		config = function()
+			require("codeium").setup({
+			enable_cmp_source = true,
 			virtual_text = {
 				enabled = true,
-				-- Set to true if you never want completions to be shown automatically.
 				manual = false,
-				-- A mapping of filetype to true or false, to enable virtual text.
-				filetypes = {},
-				-- Whether to enable virtual text of not for filetypes not specifically listed above.
 				default_filetype_enabled = true,
-				-- How long to wait (in ms) before requesting completions after typing stops.
 				idle_delay = 75,
-				-- Priority of the virtual text. This usually ensures that the completions appear on top of
-				-- other plugins that also add virtual text, such as LSP inlay hints, but can be modified if
-				-- desired.
-				virtual_text_priority = 65535,
-				-- Set to false to disable all key bindings for managing completions.
+				virtual_text_priority = 1,
 				map_keys = true,
-				-- The key to press when hitting the accept keybinding but no completion is showing.
-				-- Defaults to \t normally or <c-n> when a popup is showing. 
 				accept_fallback = nil,
-				-- Key bindings for managing completions in virtual text mode.
+				use_lsp = true,
 				key_bindings = {
-					-- Accept the current completion.
-					accept = "<Enter>",
-					-- Accept the next word.
+					accept = "<S-Tab>",
 					accept_word = false,
-					-- Accept the next line.
 					accept_line = false,
-					-- Clear the virtual text.
 					clear = false,
-					-- Cycle to the next completion.
-					next = "<Tab>",
-					-- Cycle to the previous completion.
-					prev = "<C-Tab>",
+					next = "<C-n>",
+					prev = "<C-p>",
 				}
 			}
-		},
-		config = function(opts)
-			require("codeium").setup(opts)
+		})
 		end
 	})
 end
 
 return packages
+
