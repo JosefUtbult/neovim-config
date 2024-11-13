@@ -14,10 +14,9 @@ vim.keymap.set('i', 'qq', '<C-O><End>', {silent = true})
 -- Reverse lines in visual mode
 vim.keymap.set('v', 't', ':!tac<CR>', {silent = true})
 
--- Copy-paste to global buffer
+-- Copy to global buffer
 vim.keymap.set({'n', 'v'}, 'Y', '"+y')
 vim.keymap.set('n', 'YY', '"+yy')
-vim.keymap.set('n', 'P', '"+p')
 
 -- Open a new buffer with the same file as the last
 function clone_tab()
@@ -32,7 +31,7 @@ end
 -- Tab behaviour
 vim.keymap.set('n', '<leader><leader>', ':tabnext<CR>',         {silent = true})
 vim.keymap.set('n', '<leader>n',        ':tabnew<CR>',          {silent = true})
-vim.keymap.set('n', '<leader>m',		':lua clone_tab()<CR>', {silent = true})
+vim.keymap.set('n', '<leader>m',        ':lua clone_tab()<CR>', {silent = true})
 vim.keymap.set('n', '<leader>c',        ':tabclose<CR>',        {silent = true})
 vim.keymap.set('n', '<leader>1',        '1gt',                  {silent = true})
 vim.keymap.set('n', '<leader>2',        '2gt',                  {silent = true})

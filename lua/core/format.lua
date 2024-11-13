@@ -39,3 +39,7 @@ end
 
 -- Disable conceal level
 vim.opt.conceallevel = 0
+
+-- Enable listing trailing white spaces as "￮"
+vim.opt.list = true;
+vim.opt.listchars = { trail = "￮" };
