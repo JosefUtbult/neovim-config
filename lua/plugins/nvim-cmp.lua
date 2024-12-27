@@ -108,6 +108,7 @@ packages = {
 if(os.getenv("CLAVIA") == nil) then
 	table.insert(packages, {
 		"Exafunction/codeium.nvim",
+		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			-- This is the wrong way around, but that is what codeium recommends

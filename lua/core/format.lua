@@ -1,5 +1,5 @@
 -- Layout format of documents
-vim.opt.backspace = 'indent,eol,start'
+vim.opt.backspace = "indent,eol,start"
 vim.opt.showcmd = true
 vim.opt.laststatus = 2
 vim.opt.autowrite = true
@@ -23,10 +23,10 @@ vim.opt.wrap = true
 
 -- Enable squiggly underlines
 vim.diagnostic.config({ virtual_text = true })
-vim.cmd.highlight('highlight-name gui=undercurl')
+vim.cmd.highlight("highlight-name gui=undercurl")
 
 -- Set tab behaviour
-if(os.getenv("CLAVIA") ~= nil) then
+if os.getenv("CLAVIA") ~= nil then
 	-- On Clavia, indentation is always 2 spaces
 	vim.opt.tabstop = 2
 	vim.opt.softtabstop = 2
@@ -41,5 +41,9 @@ end
 vim.opt.conceallevel = 0
 
 -- Enable listing trailing white spaces as "￮"
-vim.opt.list = true;
-vim.opt.listchars = { trail = "￮" };
+vim.opt.list = true
+vim.opt.listchars = {
+	-- This brakes if tabs isn't present, but it doesn't do anything
+	tab = "  ",
+	trail = "￮"
+}
