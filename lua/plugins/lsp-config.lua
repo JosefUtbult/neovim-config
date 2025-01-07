@@ -56,14 +56,27 @@ return {
 
 				-- Enable virtual text diagnostics when the server attaches to a buffer
 				if client.supports_method("textDocument/publishDiagnostics") then
-					-- -- Toggle virtual text
 					vim.keymap.set("n", "<leader>ax", function()
-						vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+						-- Some LSPs doesn't support is_enabled
+						if vim.diagnostic.is_enabled == nil then
+							vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 
-						if vim.diagnostic.is_enabled() then
-							print("Enabled inline diagnostics")
+							if vim.diagnostic.is_enabled() then
+								print("Enabled inline diagnostics")
+							else
+								print("Disabled inline diagnostics")
+							end
 						else
-							print("Disabled inline diagnostics")
+							isLspDiagnosticsVisible = not isLspDiagnosticsVisible
+							vim.diagnostic.config({
+								virtual_text = isLspDiagnosticsVisible,
+							})
+
+							if isLspDiagnosticsVisible then
+								print("Enabled inline diagnostics")
+							else
+								print("Disabled inline diagnostics")
+							end
 						end
 					end, { desc = "Toggle virtual text diagnostics", buffer = bufnr })
 				end
@@ -81,15 +94,20 @@ return {
 
 				-- Enable virtual text diagnostics when the server attaches to a buffer
 				if client.supports_method("textDocument/publishDiagnostics") then
-					-- -- Toggle virtual text
+					-- Toggle virtual text
+					local isLspDiagnosticsVisible = true
 					vim.keymap.set("n", "<leader>ax", function()
-						vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+						isLspDiagnosticsVisible = not isLspDiagnosticsVisible
+						vim.diagnostic.config({
+							virtual_text = isLspDiagnosticsVisible,
+						})
 
-						if vim.diagnostic.is_enabled() then
+						if isLspDiagnosticsVisible then
 							print("Enabled inline diagnostics")
 						else
 							print("Disabled inline diagnostics")
 						end
+
 					end, { desc = "Toggle virtual text diagnostics", buffer = bufnr })
 				end
 			end
