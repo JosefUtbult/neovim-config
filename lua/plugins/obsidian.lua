@@ -65,6 +65,6 @@ return {
 				-- Disable the plugins UI tools
 				enable = false
 			}
-		},
+		}
 	}
 }

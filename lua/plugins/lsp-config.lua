@@ -16,7 +16,6 @@ return {
 				"lua_ls",
 				"bashls",
 				"cmake",
-				"rust_analyzer",
 				"cssls",
 				"html",
 				"dockerls",
@@ -31,14 +30,47 @@ return {
 			}
 
 			function on_server_attach(client, bufnr)
-				vim.keymap.set("n", "K",          vim.lsp.buf.hover,                          { buffer = bufnr, desc = "Show context menu"            })
-				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,                    { buffer = bufnr, desc = "Show code actions"            })
-				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,                         { buffer = bufnr, desc = "LSP Rename"                   })
-				vim.keymap.set("n", "gr",         "<cmd>Telescope lsp_references<CR>",        { buffer = bufnr, desc = "Go to LSP references"         })
-				vim.keymap.set("n", "gd",         "<cmd>Telescope lsp_definitions<CR>",       { buffer = bufnr, desc = "Go to LSP definitions"        })
-				vim.keymap.set("n", "gD",         "<cmd>Telescope diagnostics<CR>",           { buffer = bufnr, desc = "Show LSP diagnostics"         })
-				vim.keymap.set("n", "gt",         "<cmd>Telescope lsp_type_definitions<CR>",  { buffer = bufnr, desc = "Go to LSP type definition"    })
-				vim.keymap.set("n", "gl",         "<cmd>lua vim.diagnostic.open_float()<CR>", { buffer = bufnr, desc = "Show LSP diagnostics (float)" })
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show context menu" })
+				vim.keymap.set(
+					"n",
+					"<leader>ca",
+					vim.lsp.buf.code_action,
+					{ buffer = bufnr, desc = "Show code actions" }
+				)
+				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {
+					buffer = bufnr,
+					desc = "LSP Rename",
+				})
+				vim.keymap.set(
+					"n",
+					"gr",
+					"<cmd>Telescope lsp_references<CR>",
+					{ buffer = bufnr, desc = "Go to LSP references" }
+				)
+				vim.keymap.set(
+					"n",
+					"gd",
+					"<cmd>Telescope lsp_definitions<CR>",
+					{ buffer = bufnr, desc = "Go to LSP definitions" }
+				)
+				vim.keymap.set(
+					"n",
+					"gD",
+					"<cmd>Telescope diagnostics<CR>",
+					{ buffer = bufnr, desc = "Show LSP diagnostics" }
+				)
+				vim.keymap.set(
+					"n",
+					"gt",
+					"<cmd>Telescope lsp_type_definitions<CR>",
+					{ buffer = bufnr, desc = "Go to LSP type definition" }
+				)
+				vim.keymap.set(
+					"n",
+					"gl",
+					"<cmd>lua vim.diagnostic.open_float()<CR>",
+					{ buffer = bufnr, desc = "Show LSP diagnostics (float)" }
+				)
 
 				-- Enable inline hints when the server attaches to a buffer
 				if client.supports_method("textDocument/inlayHint") then
@@ -84,14 +116,47 @@ return {
 			end
 
 			function on_server_attach_clangd(client, bufnr)
-				vim.keymap.set("n", "K",          vim.lsp.buf.hover,                          { buffer = bufnr, desc = "Show context menu"            })
-				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,                    { buffer = bufnr, desc = "Show code actions"            })
-				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,                         { buffer = bufnr, desc = "LSP Rename"                   })
-				vim.keymap.set("n", "gr",         "<cmd>Telescope lsp_references<CR>",        { buffer = bufnr, desc = "Go to LSP references"         })
-				vim.keymap.set("n", "gd",         "<cmd>Telescope lsp_definitions<CR>",       { buffer = bufnr, desc = "Go to LSP definitions"        })
-				vim.keymap.set("n", "gD",         "<cmd>Telescope diagnostics<CR>",           { buffer = bufnr, desc = "Show LSP diagnostics"         })
-				vim.keymap.set("n", "gt",         "<cmd>Telescope lsp_type_definitions<CR>",  { buffer = bufnr, desc = "Go to LSP type definition"    })
-				vim.keymap.set("n", "gl",         "<cmd>lua vim.diagnostic.open_float()<CR>", { buffer = bufnr, desc = "Show LSP diagnostics (float)" })
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show context menu" })
+				vim.keymap.set(
+					"n",
+					"<leader>ca",
+					vim.lsp.buf.code_action,
+					{ buffer = bufnr, desc = "Show code actions" }
+				)
+				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {
+					buffer = bufnr,
+					desc = "LSP Rename",
+				})
+				vim.keymap.set(
+					"n",
+					"gr",
+					"<cmd>Telescope lsp_references<CR>",
+					{ buffer = bufnr, desc = "Go to LSP references" }
+				)
+				vim.keymap.set(
+					"n",
+					"gd",
+					"<cmd>Telescope lsp_definitions<CR>",
+					{ buffer = bufnr, desc = "Go to LSP definitions" }
+				)
+				vim.keymap.set(
+					"n",
+					"gD",
+					"<cmd>Telescope diagnostics<CR>",
+					{ buffer = bufnr, desc = "Show LSP diagnostics" }
+				)
+				vim.keymap.set(
+					"n",
+					"gt",
+					"<cmd>Telescope lsp_type_definitions<CR>",
+					{ buffer = bufnr, desc = "Go to LSP type definition" }
+				)
+				vim.keymap.set(
+					"n",
+					"gl",
+					"<cmd>lua vim.diagnostic.open_float()<CR>",
+					{ buffer = bufnr, desc = "Show LSP diagnostics (float)" }
+				)
 
 				-- Enable virtual text diagnostics when the server attaches to a buffer
 				if client.supports_method("textDocument/publishDiagnostics") then
@@ -132,6 +197,24 @@ return {
 				inlay_hints = { enabled = true },
 				document_highlight = { enabled = true },
 				codelens = { enabled = true },
+			})
+
+			-- Disable a warning in rust analyzer
+			lspconfig["rust_analyzer"].setup({
+				capabilities = capabilities,
+				on_attach = on_server_attach,
+				inlay_hints = { enabled = true },
+				document_highlight = { enabled = true },
+				codelens = { enabled = true },
+				settings = {
+					["rust-analyzer"] = {
+						diagnostics = {
+							enable = true,
+							disabled = {"inactive-code"},
+							enableExperimental = true,
+						}
+					}
+				}
 			})
 		end,
 	},
@@ -241,4 +324,3 @@ return {
 		tag = "v1.4.5",
 	},
 }
-
