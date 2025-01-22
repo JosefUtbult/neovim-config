@@ -5,6 +5,7 @@ return {
 			"williamboman/mason.nvim",
 			"nvim-telescope/telescope.nvim",
 			"hrsh7th/cmp-nvim-lsp",
+			"folke/neoconf.nvim"
 		},
 		config = function()
 			local lspconfig = require("lspconfig")

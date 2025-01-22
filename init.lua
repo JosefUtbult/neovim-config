@@ -19,6 +19,7 @@ require("core.spellcheck")
 require("core.folding")
 require("core.autoread")
 require("core.commands")
+require("core.icons")
 
 -- require("vim-options")
 require("lazy").setup("plugins")
