@@ -2,6 +2,9 @@
 return {
 	{
 		"nvim-lualine/lualine.nvim",
+		dependencies = {
+			"stevearc/overseer.nvim",
+		},
 		config = function()
 			local lualine = require("lualine")
 
@@ -19,6 +22,7 @@ return {
 							path = 1,
 						},
 					},
+					lualine_x = { "overseer" },
 				},
 			})
 		end,
