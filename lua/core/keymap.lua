@@ -6,8 +6,10 @@ vim.o.timeoutlen = 800
 
 -- Map jj to escape
 vim.keymap.set('i', 'jj', '<Esc>', {silent = true})
+
 -- Clear the search on <leader>h
 vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>', {silent = true})
+
 -- Go to the end of the line with qq
 vim.keymap.set('i', 'qq', '<C-O><End>', {silent = true})
 
@@ -17,6 +19,9 @@ vim.keymap.set('v', 't', ':!tac<CR>', {silent = true})
 -- Copy to global buffer
 vim.keymap.set({'n', 'v'}, 'Y', '"+y')
 vim.keymap.set('n', 'YY', '"+yy')
+
+-- Enter normal mode from terminal mode
+vim.keymap.set('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = true })
 
 -- Open a new buffer with the same file as the last
 function clone_tab()

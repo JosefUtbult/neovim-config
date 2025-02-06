@@ -1,58 +1,32 @@
 return {
 	{
 		"stevearc/overseer.nvim",
-		opts = {
-			dap = false,
-			component_aliases = {
-				default_vscode = {
-					"default",
-					"on_output_quickfix"
-				},
-			},
+		dependencies = {
+			"akinsho/toggleterm.nvim",
 		},
-		config = function(_, opts)
-			require("overseer").setup(opts)
-
-			-- Define Make command
-			vim.api.nvim_create_user_command("Make", function(params)
-				-- Insert args at the '$*' in the makeprg
-				local cmd, num_subs = vim.o.makeprg:gsub("%$%*", params.args)
-				if num_subs == 0 then
-					cmd = cmd .. " " .. params.args
-				end
-				local task = require("overseer").new_task({
-					cmd = vim.fn.expandcmd(cmd),
-					components = {
-						{ "on_output_quickfix", open = not params.bang, open_height = 8, close = true },
-						"default",
-					},
-				})
-				task:start()
-			end, {
-				desc = "Run make as an Overseer task",
-				nargs = "*",
-				bang = true,
-			})
-
-			-- Define Cygwin Make command
-			vim.api.nvim_create_user_command("Cygmake", function(params)
-				-- Insert args at the '$*' in the makeprg
-				local cmd, num_subs = vim.o.makeprg:gsub("%$%*", params.args)
-				if num_subs == 0 then
-					cmd = cmd .. " " .. params.args
-				end
-				local task = require("overseer").new_task({
-					cmd = "cygwin -c \"" .. vim.fn.expandcmd(cmd) .. "\"",
-					components = {
-						{ "on_output_quickfix", open = not params.bang, open_height = 8, close = true },
-						"default",
-					},
-				})
-				task:start()
-			end, {
-				desc = "Run make in cygwin as an Overseer task",
-				nargs = "*",
-				bang = true,
+		config = function(opts)
+			require("overseer").setup({
+				dap = false,
+				strategy = {
+					"toggleterm",
+					direction = "tab",
+					auto_scroll = true,
+					close_on_exit = false,
+					quit_on_exit = "never",
+					persist_mode = true,
+					keepalive = true,
+					insert_mappings = true,
+					terminal_mappings = true,
+					go_back = 0,
+				},
+				-- Disable all inbuilt task providers. I'd rather make my own tasks
+				task_provider = {
+					vscode = false,
+					cargo = false,
+					cmake = false,
+					make = false,
+					ninja = false,
+				},
 			})
 
 			-- Define command to rerun most recent task
@@ -68,13 +42,27 @@ return {
 		end,
 
 		keys = {
-			{ "<leader>rb", function() require("overseer").load_task_bundle() end, desc = "Load bundle" },
+			{
+				"<leader>rb",
+				function()
+					require("overseer").load_task_bundle()
+				end,
+				desc = "Load bundle",
+			},
 			{
 				"<leader>rB",
-				function() require("overseer").save_task_bundle(nil, nil, { on_conflict = "overwrite" }) end,
+				function()
+					require("overseer").save_task_bundle(nil, nil, { on_conflict = "overwrite" })
+				end,
 				desc = "Save bundle",
 			},
-			{ "<leader>rd", function() require("overseer").delete_task_bundle() end, desc = "Delete bundle" },
+			{
+				"<leader>rd",
+				function()
+					require("overseer").delete_task_bundle()
+				end,
+				desc = "Delete bundle",
+			},
 			{
 				"<leader>rD",
 				function()
@@ -86,16 +74,30 @@ return {
 				end,
 				desc = "Dispose all non-running tasks",
 			},
-			{ "<leader>rl", function() require("overseer").list_task_bundles() end, desc = "List bundles" },
+			{
+				"<leader>rl",
+				function()
+					require("overseer").list_task_bundles()
+				end,
+				desc = "List bundles",
+			},
 			{ "<leader>ra", "<cmd>OverseerQuickAction<cr>", desc = "Quick action" },
-			{ "<leader>rr", function() require("overseer").run_template({ prompt = "missing" }) end, desc = "Template task" },
+			{
+				"<leader>rr",
+				function()
+					require("overseer").run_template({ prompt = "missing" })
+				end,
+				desc = "Template task",
+			},
 			{ "<leader>rl", "<cmd>OverseerRestartLast<cr>", desc = "Rerun most recent task" },
 			{
 				"<leader>rt",
-				function() require("overseer").toggle({ direction = "right" }) end,
+				function()
+					require("overseer").toggle({ direction = "right" })
+				end,
 				desc = "Toggle Overseer task list",
 			},
 			{ "<leader>rs", "<cmd>OverseerRunCmd<cr>", desc = "Raw shell command" },
 		},
-	},
+	}
 }
