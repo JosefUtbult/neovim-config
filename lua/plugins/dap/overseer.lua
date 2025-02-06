@@ -7,6 +7,7 @@ return {
 		config = function(opts)
 			require("overseer").setup({
 				dap = false,
+				auto_detect_success_color = true,
 				strategy = {
 					"toggleterm",
 					direction = "tab",
@@ -20,13 +21,7 @@ return {
 					go_back = 0,
 				},
 				-- Disable all inbuilt task providers. I'd rather make my own tasks
-				task_provider = {
-					vscode = false,
-					cargo = false,
-					cmake = false,
-					make = false,
-					ninja = false,
-				},
+				templates = {},
 			})
 
 			-- Define command to rerun most recent task
