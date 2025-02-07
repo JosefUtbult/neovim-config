@@ -11,7 +11,7 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			-- Set up each language server and enable inline hints and virtual text by default
-			local servers = {
+			local default_servers = {
 				"lua_ls",
 				"bashls",
 				"cmake",
@@ -28,7 +28,11 @@ return {
 				"arduino_language_server",
 			}
 
-			function on_server_attach(client, bufnr)
+			local ignore_inline_text = {
+				"clangd"
+			}
+
+			local function on_server_attach(client, bufnr)
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show context menu" })
 				vim.keymap.set(
 					"n",
@@ -72,7 +76,7 @@ return {
 				)
 
 				-- Enable inline hints when the server attaches to a buffer
-				if client.supports_method("textDocument/inlayHint") then
+				if client.supports_method("textDocument/inlayHint") and not vim.tbl_contains(ignore_inline_text, client.name) then
 					vim.lsp.inlay_hint.enable(true)
 					-- Toggle inline hints
 					vim.keymap.set("n", "<leader>an", function()
@@ -88,6 +92,7 @@ return {
 
 				-- Enable virtual text diagnostics when the server attaches to a buffer
 				if client.supports_method("textDocument/publishDiagnostics") then
+					local isLspDiagnosticsVisible = true
 					vim.keymap.set("n", "<leader>ax", function()
 						-- Some LSPs doesn't support is_enabled
 						if vim.diagnostic.is_enabled == nil then
@@ -114,88 +119,23 @@ return {
 				end
 			end
 
-			function on_server_attach_clangd(client, bufnr)
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show context menu" })
-				vim.keymap.set(
-					"n",
-					"<leader>ca",
-					vim.lsp.buf.code_action,
-					{ buffer = bufnr, desc = "Show code actions" }
-				)
-				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {
-					buffer = bufnr,
-					desc = "LSP Rename",
-				})
-				vim.keymap.set(
-					"n",
-					"gr",
-					"<cmd>Telescope lsp_references<CR>",
-					{ buffer = bufnr, desc = "Go to LSP references" }
-				)
-				vim.keymap.set(
-					"n",
-					"gd",
-					"<cmd>Telescope lsp_definitions<CR>",
-					{ buffer = bufnr, desc = "Go to LSP definitions" }
-				)
-				vim.keymap.set(
-					"n",
-					"gD",
-					"<cmd>Telescope diagnostics<CR>",
-					{ buffer = bufnr, desc = "Show LSP diagnostics" }
-				)
-				vim.keymap.set(
-					"n",
-					"gt",
-					"<cmd>Telescope lsp_type_definitions<CR>",
-					{ buffer = bufnr, desc = "Go to LSP type definition" }
-				)
-				vim.keymap.set(
-					"n",
-					"gl",
-					"<cmd>lua vim.diagnostic.open_float()<CR>",
-					{ buffer = bufnr, desc = "Show LSP diagnostics (float)" }
-				)
-
-				-- Enable virtual text diagnostics when the server attaches to a buffer
-				if client.supports_method("textDocument/publishDiagnostics") then
-					-- Toggle virtual text
-					local isLspDiagnosticsVisible = true
-					vim.keymap.set("n", "<leader>ax", function()
-						isLspDiagnosticsVisible = not isLspDiagnosticsVisible
-						vim.diagnostic.config({
-							virtual_text = isLspDiagnosticsVisible,
-						})
-
-						if isLspDiagnosticsVisible then
-							print("Enabled inline diagnostics")
-						else
-							print("Disabled inline diagnostics")
-						end
-
-					end, { desc = "Toggle virtual text diagnostics", buffer = bufnr })
-				end
-			end
-
-			local opts = {
+			local default_opts = {
 				capabilities = capabilities,
 				on_attach = on_server_attach,
 				inlay_hints = { enabled = true },
 				document_highlight = { enabled = true },
-				codelens = { enabled = true },
 			}
 
-			for _, server in ipairs(servers) do
-				lspconfig[server].setup(opts)
+			for _, server in ipairs(default_servers) do
+				lspconfig[server].setup(default_opts)
 			end
 
 			-- Clangd has some issue with inline text...
 			lspconfig["clangd"].setup({
 				capabilities = capabilities,
-				on_attach = on_server_attach_clangd,
-				inlay_hints = { enabled = true },
+				on_attach = on_server_attach,
+				inlay_hints = { enabled = false },
 				document_highlight = { enabled = true },
-				codelens = { enabled = true },
 			})
 
 			-- Disable a warning in rust analyzer
@@ -261,7 +201,6 @@ return {
 	-- Lightweight yet powerful formatter plugin for Neovim
 	{
 		"stevearc/conform.nvim",
-		enabled = true,
 		keys = {
 			{
 				"<leader>gf",
@@ -292,31 +231,30 @@ return {
 				desc = "Switch between header and source file",
 			},
 		},
-		-- Everything in opts will be passed to setup()
-		opts = {
-			log_level = vim.log.levels.DEBUG,
-			-- Define your formatters
-			formatters_by_ft = {
-				lua = { "stylua" },
-				python = { "isort", "black" },
-				javascript = { { "prettierd", "prettier" } },
-				inl = { "clang-format" },
-				h = { "clang-format" },
-				c = { "clang-format" },
-				cpp = { "clang-format" },
-				rust = { "rust-analyzer", lsp_format = "fallback" },
-			},
-			formatters = {
-				clangd_format = {
-					command = "clang-format",
-					args = {
-						"--style=file",
+		config = function()
+			require('conform').setup({
+				log_level = vim.log.levels.DEBUG,
+				-- Define your formatters
+				formatters_by_ft = {
+					lua = { "stylua" },
+					python = { "isort", "black" },
+					javascript = { { "prettierd", "prettier" } },
+					inl = { "clang-format" },
+					h = { "clang-format" },
+					c = { "clang-format" },
+					cpp = { "clang-format" },
+					rust = { "rust-analyzer", lsp_format = "fallback" },
+				},
+				formatters = {
+					clang_format = {
+						command = "clang-format",
+						args = { "--style=file" },
 					},
 				},
-			},
-			-- Disable format-on-save
-			format_on_save = false,
-		},
+				-- Disable format-on-save
+				format_on_save = false,
+			})
+		end,
 	},
 	{
 		"j-hui/fidget.nvim",

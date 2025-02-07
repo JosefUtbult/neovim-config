@@ -9,7 +9,7 @@ return {
 		config = function()
 			local settings_path = '.nvim/config.lua'
 			if os.getenv("CLAVIA") == "true" then
-				settings_path = '.nvim/jutb/config.lua'
+				settings_path = '.jutb/nvim/config.lua'
 			end
 
 			require('exrc').setup({
