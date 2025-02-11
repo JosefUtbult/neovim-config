@@ -1,5 +1,5 @@
 local rust_find_target = require("utils.rust_find_target")
-local select_target = require("utils.select_target")
+-- local select_target = require("utils.select_target")
 
 return {
 	{
@@ -19,8 +19,6 @@ return {
 			-- Setup virtual text
 			dap_virtual_text.setup({ virt_text_pos = "eol" })
 
-			-- Setup hydra statusline
-
 			dap.adapters.executable = {
 				type = "executable",
 				command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
@@ -38,58 +36,58 @@ return {
 				},
 			}
 			dap.adapters.cppdbg = {
-				name = "cppdbg",
+				name = "GDB (VSCode)",
 				type = "executable",
 				command = vim.fn.stdpath("data") .. "/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7",
 			}
 
-			dap.configurations.rust = {
-				{
-					type = "probe-rs-debug",
-					request = "launch",
-					name = "Probe-rs debug",
-					chip = "stm32f401RETx",
-					coreConfigs = {
-						{
-							programBinary = function()
-								local bufname = vim.api.nvim_buf_get_name(0) -- Get current buffer path
-								local executable = rust_find_target.findExecutablePath(bufname)
-								if executable then
-									return executable
-								else
-									error(
-										"Could not find Rust executable. Make sure Cargo.toml exists and .cargo/config.toml has a valid target."
-									)
-								end
-							end,
-						},
-					},
-				},
-				{
-					name = "CodeLLDB debug",
-					type = "codelldb",
-					request = "launch",
-					program = select_target,
-					cwd = "${workspaceFolder}",
-					stopOnEntry = false,
-					args = {},
-					runInTerminal = true,
-				},
-			}
+			-- dap.configurations.rust = {
+			-- 	{
+			-- 		type = "probe-rs-debug",
+			-- 		request = "launch",
+			-- 		name = "Probe-rs debug",
+			-- 		chip = "stm32f401RETx",
+			-- 		coreConfigs = {
+			-- 			{
+			-- 				programBinary = function()
+			-- 					local bufname = vim.api.nvim_buf_get_name(0) -- Get current buffer path
+			-- 					local executable = rust_find_target.findExecutablePath(bufname)
+			-- 					if executable then
+			-- 						return executable
+			-- 					else
+			-- 						error(
+			-- 							"Could not find Rust executable. Make sure Cargo.toml exists and .cargo/config.toml has a valid target."
+			-- 						)
+			-- 					end
+			-- 				end,
+			-- 			},
+			-- 		},
+			-- 	},
+			-- 	{
+			-- 		name = "CodeLLDB debug",
+			-- 		type = "codelldb",
+			-- 		request = "launch",
+			-- 		program = select_target,
+			-- 		cwd = "${workspaceFolder}",
+			-- 		stopOnEntry = false,
+			-- 		args = {},
+			-- 		runInTerminal = true,
+			-- 	},
+			-- }
 
-			dap.configurations.cpp = {
-				{
-					name = "CodeLLDB",
-					type = "codelldb",
-					request = "launch",
-					program = select_target,
-					cwd = "${workspaceFolder}",
-					stopOnEntry = false,
-					args = {},
-					runInTerminal = true,
-				},
-			}
-			dap.configurations.c = dap.configurations.cpp
+			-- dap.configurations.cpp = {
+			-- 	{
+			-- 		name = "CodeLLDB",
+			-- 		type = "codelldb",
+			-- 		request = "launch",
+			-- 		program = select_target,
+			-- 		cwd = "${workspaceFolder}",
+			-- 		stopOnEntry = false,
+			-- 		args = {},
+			-- 		runInTerminal = true,
+			-- 	},
+			-- }
+			-- dap.configurations.c = dap.configurations.cpp
 
 			-- Set signs, stolen from Rickard
 			local icons = require("core.icons").icons
