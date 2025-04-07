@@ -36,7 +36,11 @@ return {
 			{
 				"<leader>fd",
 				function()
-					require("telescope.builtin").oldfiles({ cwd_only = true })
+					if not vim.g.telescope_cwd_only then
+						require("telescope.builtin").oldfiles()
+					else
+						require("telescope.builtin").oldfiles({ cwd_only = true })
+					end
 				end,
 				desc = "Search previously open files",
 				noremap = true,
