@@ -1,7 +1,7 @@
 return {
   {
     "David-Kunz/gen.nvim",
-    enabled = true,
+    enabled = false,
     opts = {
       model = "llama3",
       -- model = "codegemma",

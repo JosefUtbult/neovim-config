@@ -41,54 +41,6 @@ return {
 				command = vim.fn.stdpath("data") .. "/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7",
 			}
 
-			-- dap.configurations.rust = {
-			-- 	{
-			-- 		type = "probe-rs-debug",
-			-- 		request = "launch",
-			-- 		name = "Probe-rs debug",
-			-- 		chip = "stm32f401RETx",
-			-- 		coreConfigs = {
-			-- 			{
-			-- 				programBinary = function()
-			-- 					local bufname = vim.api.nvim_buf_get_name(0) -- Get current buffer path
-			-- 					local executable = rust_find_target.findExecutablePath(bufname)
-			-- 					if executable then
-			-- 						return executable
-			-- 					else
-			-- 						error(
-			-- 							"Could not find Rust executable. Make sure Cargo.toml exists and .cargo/config.toml has a valid target."
-			-- 						)
-			-- 					end
-			-- 				end,
-			-- 			},
-			-- 		},
-			-- 	},
-			-- 	{
-			-- 		name = "CodeLLDB debug",
-			-- 		type = "codelldb",
-			-- 		request = "launch",
-			-- 		program = select_target,
-			-- 		cwd = "${workspaceFolder}",
-			-- 		stopOnEntry = false,
-			-- 		args = {},
-			-- 		runInTerminal = true,
-			-- 	},
-			-- }
-
-			-- dap.configurations.cpp = {
-			-- 	{
-			-- 		name = "CodeLLDB",
-			-- 		type = "codelldb",
-			-- 		request = "launch",
-			-- 		program = select_target,
-			-- 		cwd = "${workspaceFolder}",
-			-- 		stopOnEntry = false,
-			-- 		args = {},
-			-- 		runInTerminal = true,
-			-- 	},
-			-- }
-			-- dap.configurations.c = dap.configurations.cpp
-
 			-- Set signs, stolen from Rickard
 			local icons = require("core.icons").icons
 			vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })

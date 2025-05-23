@@ -120,6 +120,13 @@ return {
 						i = { ["<c-t>"] = require("trouble.sources.telescope").open },
 						n = { ["<c-t>"] = require("trouble.sources.telescope").open },
 					},
+					set_cwd = false,
+					cwd = vim.fn.getcwd(),
+				},
+				pickers = {
+					find_files = {
+						cwd = vim.fn.getcwd(),
+					},
 				},
 				extensions = {
 					["ui-select"] = {
