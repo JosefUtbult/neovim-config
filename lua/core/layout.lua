@@ -216,23 +216,6 @@ api.nvim_create_autocmd("VimEnter", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("WinClosed", {
-	callback = function(args)
-		local closed_win = tonumber(args.match)
-		if closed_win then
-			local buf = vim.api.nvim_win_get_buf(closed_win)
-			local bufname = vim.api.nvim_buf_get_name(buf)
-			if bufname:match("NvimTree_") then
-				-- Reset left buffer for current tab only
-				local tab = get_tab_suffix()
-				if is_active_per_tab[tab] then
-					reset_left_buffer()
-				end
-			end
-		end
-	end,
-})
-
 api.nvim_create_autocmd("WinClosed", {
 	callback = function(args)
 		local closing_win = tonumber(args.match)
@@ -240,10 +223,24 @@ api.nvim_create_autocmd("WinClosed", {
 			return
 		end
 
+		-- If this is the NvimTree buffer, treat it differently
+		local buf = vim.api.nvim_win_get_buf(closing_win)
+		local bufname = vim.api.nvim_buf_get_name(buf)
+		if bufname:match("NvimTree_") then
+			-- Reset left buffer for current tab only
+			local tab = get_tab_suffix()
+			if is_active_per_tab[tab] then
+				reset_left_buffer()
+			end
+			return
+		end
+
+		-- Ignore relative windows
 		if api.nvim_win_get_config(closing_win).relative ~= "" then
 			return
 		end
 
+		-- Check if any pads should be closed
 		local tabpage = api.nvim_win_get_tabpage(closing_win)
 		vim.schedule(function()
 			maybe_close_pads_in_tab(tabpage)
