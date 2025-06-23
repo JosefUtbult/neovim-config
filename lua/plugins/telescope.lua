@@ -116,6 +116,16 @@ return {
 		config = function()
 			require("telescope").setup({
 				defaults = {
+					layout_config = {
+						horizontal = {
+							width = function(_, cols, _)
+								local desired = math.floor(cols * 0.80)
+								local max = 160
+								return math.min(desired, max)
+							end,
+						},
+						-- other layout configuration here
+					},
 					mappings = {
 						i = { ["<c-t>"] = require("trouble.sources.telescope").open },
 						n = { ["<c-t>"] = require("trouble.sources.telescope").open },
